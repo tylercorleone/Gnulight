@@ -6,7 +6,6 @@
 #include <Components.h>
 #include <stdint.h>
 
-#define MIN_LIGHT_CURRENT_ABOVE_ZERO 0.00035f
 #define MAIN_LEVELS_NUM 3
 #define SUBLEVELS_NUM 2
 
@@ -28,7 +27,7 @@ protected:
 	GradualPotentiometerActuator *gradualLevelSetter;
 	uint8_t currentSubLevelsIndexes[MAIN_LEVELS_NUM] = { 0, 0, 0 };
 	const float mainLevels[MAIN_LEVELS_NUM][SUBLEVELS_NUM] = { {
-			MIN_LIGHT_CURRENT_ABOVE_ZERO, 0.02f }, { 0.2f, 0.5f }, { 0.75f, 1.0f } };
+			LEVEL_LOW_1, LEVEL_LOW_2 }, { LEVEL_MED_1, LEVEL_MED_2 }, { LEVEL_HIGH_1, LEVEL_HIGH_2 } };
 };
 
 #endif

@@ -6,7 +6,7 @@ inline GnulightLightDimmer::GnulightLightDimmer(Potentiometer &brightnessPotenti
 	setName("lightDrv");
 
 	gradualLevelSetter = new GradualPotentiometerActuator(
-	DELAYED_LEVEL_SETTER_INTERVAL_MS, taskManager, *this);
+			MsToTaskTime(DELAY_BETWEEN_LEVEL_CHANGE_MS), taskManager, *this);
 }
 
 inline void GnulightLightDimmer::setLevel(float level, uint32_t transitionDurationMs) {

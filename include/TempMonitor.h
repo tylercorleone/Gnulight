@@ -10,10 +10,7 @@
 
 class Gnulight;
 
-#define TEMP_MONITOR_INTERVAL_MS 10000
-#define EMITTER_TARGET_TEMPERATURE 50.0f
-#define TEMPERATURE_MAX_ERROR 500.0f
-#define CURRENT_ACTIVATION_THRESHOLD 0.2f
+#define TEMP_MONITOR_TEMP_INTEGRAL_MAX 500.0f
 
 class TempMonitor: public Task, public DeviceAware<Gnulight>, public Named {
 public:

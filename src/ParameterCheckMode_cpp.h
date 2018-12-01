@@ -66,9 +66,9 @@ inline uint32_t ParameterCheckMode::switchLightStatus(ParameterCheckMode *_this)
 
 		if (_this->strobesForIntegerPartCount == 0
 				&& _this->Device().lightDimmer.getState() == OnOffState::ON) {
-			intervalMultiplier = COMMA_SIGNAL_DUTY_CYCLE;
+			intervalMultiplier = PAR_CHECK_COMMA_DUTY_CYCLE;
 		} else {
-			intervalMultiplier = DIGIT_SIGNAL_DUTY_CYCLE;
+			intervalMultiplier = PAR_CHECK_DIGIT_DUTY_CYCLE;
 		}
 
 	} else {
@@ -77,7 +77,7 @@ inline uint32_t ParameterCheckMode::switchLightStatus(ParameterCheckMode *_this)
 		 * Is a decimal
 		 */
 		pCounter = &_this->strobesForDecimalPartCount;
-		intervalMultiplier = DIGIT_SIGNAL_DUTY_CYCLE;
+		intervalMultiplier = PAR_CHECK_DIGIT_DUTY_CYCLE;
 	}
 
 	if (_this->Device().lightDimmer.getState() == OnOffState::OFF) {
@@ -85,5 +85,5 @@ inline uint32_t ParameterCheckMode::switchLightStatus(ParameterCheckMode *_this)
 		intervalMultiplier = 1.0f - intervalMultiplier;
 	}
 
-	return MsToTaskTime(SIGNAL_STROBE_INTERVAL_MS * intervalMultiplier);
+	return MsToTaskTime(PAR_CHECK_STROBE_PERIOD_MS * intervalMultiplier);
 }

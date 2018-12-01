@@ -7,10 +7,6 @@
 
 class Gnulight;
 
-#define SIGNAL_STROBE_INTERVAL_MS 800UL
-#define DIGIT_SIGNAL_DUTY_CYCLE 0.15f
-#define COMMA_SIGNAL_DUTY_CYCLE 1.0f
-
 class ParameterCheckMode: public State<Gnulight, MessageEvent> {
 public:
 	const char *BATTERY_CHECK_MSG = "b";

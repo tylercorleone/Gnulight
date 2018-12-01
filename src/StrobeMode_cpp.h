@@ -68,7 +68,7 @@ inline bool StrobeMode::handleEvent(const ButtonEvent &event) {
 	}
 }
 
-#define THE_PERIOD (PERIODICAL_SEQUENCE_STROBES_PERIOD_MS * _this->periodMultiplierX1000 / 1000)
+#define THE_PERIOD (STROBE_PERIODICAL_SEQUENCE_PERIOD_MS * _this->periodMultiplierX1000 / 1000)
 
 inline uint32_t StrobeMode::switchLightStatus(StrobeMode* _this) {
 	uint32_t nextIntervalMs;
@@ -77,35 +77,35 @@ inline uint32_t StrobeMode::switchLightStatus(StrobeMode* _this) {
 	switch (_this->currentStrobeType) {
 
 	case ON_OFF_STROBE:
-		nextIntervalMs = ON_OFF_STROBE_PERIOD_MS / 2
+		nextIntervalMs = STROBE_ON_OFF_INIT_PERIOD_MS / 2
 				* _this->periodMultiplierX1000 / 1000;
 		break;
 	case BEACON_STROBE:
 		if (_this->Device().lightDimmer.getState() == OnOffState::OFF) {
-			nextIntervalMs = BEACON_STROBE_PERIOD_MS * BEACON_STROBE_DUTY_CYCLE;
+			nextIntervalMs = STROBE_BEACON_PERIOD_MS * STROBE_BEACON_DUTY_CYCLE;
 		} else {
-			nextIntervalMs = BEACON_STROBE_PERIOD_MS
-					* (1.0f - BEACON_STROBE_DUTY_CYCLE);
+			nextIntervalMs = STROBE_BEACON_PERIOD_MS
+					* (1.0f - STROBE_BEACON_DUTY_CYCLE);
 		}
 		break;
 	case DISCO_STROBE:
 		if (_this->Device().lightDimmer.getState() == OnOffState::OFF) {
-			nextIntervalMs = DISCO_STROBE_PERIOD_MS * DISCO_STROBE_DUTY_CYCLE;
+			nextIntervalMs = STROBE_DISCO_PERIOD_MS * STROBE_DISCO_DUTY_CYCLE;
 		} else {
-			nextIntervalMs = DISCO_STROBE_PERIOD_MS
-					* (1.0f - DISCO_STROBE_DUTY_CYCLE);
+			nextIntervalMs = STROBE_DISCO_PERIOD_MS
+					* (1.0f - STROBE_DISCO_DUTY_CYCLE);
 		}
 		break;
 	case SINUSOIDAL_STROBE:
-		nextIntervalMs = LEVEL_REFRESH_INTERVAL_MS;
-		nextPotentiometerLevel = MIN_POTENTIOMETER_LEVEL
-				+ (_this->varName - MIN_POTENTIOMETER_LEVEL)
+		nextIntervalMs = STROBE_LEVEL_REFRESH_INTERVAL_MS;
+		nextPotentiometerLevel = LEVEL_LOW_1
+				+ (_this->varName - LEVEL_LOW_1)
 						* (sinWave(millis(), THE_PERIOD));
 		break;
 	case LINEAR_STROBE:
-		nextIntervalMs = LEVEL_REFRESH_INTERVAL_MS;
-		nextPotentiometerLevel = MIN_POTENTIOMETER_LEVEL
-				+ (_this->varName - MIN_POTENTIOMETER_LEVEL)
+		nextIntervalMs = STROBE_LEVEL_REFRESH_INTERVAL_MS;
+		nextPotentiometerLevel = LEVEL_LOW_1
+				+ (_this->varName - LEVEL_LOW_1)
 						* triangularWave(millis(), THE_PERIOD);
 		break;
 	default:

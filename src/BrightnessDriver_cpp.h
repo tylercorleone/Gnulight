@@ -4,14 +4,14 @@ inline BrightnessDriver::BrightnessDriver(TaskManager &taskManager) {
 	setName("brightDriver");
 
 	gradualMaxCurrentLevelSetter = new GradualCappablePotentiometerActuator(
-			DELAYED_LEVEL_SETTER_INTERVAL_MS, taskManager, *this);
+			MsToTaskTime(DELAY_BETWEEN_LEVEL_CHANGE_MS), taskManager, *this);
 }
 
 inline void BrightnessDriver::updateLevelMaxLimit() {
 	float limit = min(tempCausedLimit, battCausedLimit);
 
 	gradualMaxCurrentLevelSetter->setLevelMaxLimit(limit,
-			MsToTaskTime(LEVEL_MAX_LIMIT_TRANSITION_MS));
+			MsToTaskTime(STEP_UP_DOWN_DURATION_MS));
 }
 
 inline void BrightnessDriver::setBatteryCausedLimit(float limit) {

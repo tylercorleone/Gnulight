@@ -1,5 +1,5 @@
-#ifndef LITHIUMBATTERYMONITOR_H
-#define LITHIUMBATTERYMONITOR_H
+#ifndef BATTERYMONITOR_H
+#define BATTERYMONITOR_H
 
 #include "gnulight_config.h"
 
@@ -7,9 +7,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <Task.h>
-
-#define BATTERY_LEVEL_MONITORING_INTERVAL_MS 15000
-#define FILTERED_RECHARGE_AMOUNT 0.15f
 
 class Gnulight;
 

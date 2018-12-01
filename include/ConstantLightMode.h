@@ -5,8 +5,6 @@
 
 #include <Components.h>
 
-#define MAIN_LEVEL_TRANSITION_DURATION_MS 300UL
-
 class Gnulight;
 
 class ConstantLightMode: public State<Gnulight, ButtonEvent> {

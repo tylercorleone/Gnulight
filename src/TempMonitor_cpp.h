@@ -20,12 +20,15 @@ inline void TempMonitor::OnStop() {
 }
 
 inline void TempMonitor::OnUpdate(uint32_t deltaTime) {
-	float temperature = readTemperature();
-	tempCausedLimit = calculateTemperatureCurrentLimit(temperature);
+	if (Device().brightnessDriver.getLevel()
+			>= TEMP_MONITOR_LEVEL_ACTIVATION_THRESHOLD) {
+		float temperature = readTemperature();
+		tempCausedLimit = calculateTemperatureCurrentLimit(temperature);
 
-	debugIfNamed("temp.: %f, limit: %f", temperature, tempCausedLimit);
+		debugIfNamed("temp.: %f, limit: %f", temperature, tempCausedLimit);
 
-	Device().brightnessDriver.setTemperatureCausedLimit(tempCausedLimit);
+		Device().brightnessDriver.setTemperatureCausedLimit(tempCausedLimit);
+	}
 }
 
 inline float TempMonitor::calculateTemperatureCurrentLimit(float temperature) {
@@ -40,11 +43,11 @@ inline float TempMonitor::calculateTemperatureCurrentLimit(float temperature) {
 inline float TempMonitor::getTemperaturePIDVar(float temperature) {
 	float dt = TEMP_MONITOR_INTERVAL_MS / 1000.0f;
 
-	float temperatureError = EMITTER_TARGET_TEMPERATURE - temperature;
+	float temperatureError = TEMP_MONITOR_EMITTER_TARGET_TEMPERATURE - temperature;
 
 	temperatureErrorIntegral += temperatureError * dt;
 	temperatureErrorIntegral = _constrain(temperatureErrorIntegral,
-			-TEMPERATURE_MAX_ERROR, TEMPERATURE_MAX_ERROR);
+			-TEMP_MONITOR_TEMP_INTEGRAL_MAX, TEMP_MONITOR_TEMP_INTEGRAL_MAX);
 
 	float derivative = calculateDerivate(temperatureError, temperatureError_1,
 			temperatureError_2, dt);
