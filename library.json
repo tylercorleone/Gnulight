@@ -1,0 +1,19 @@
+{
+  "name": "Gnulight",
+  "version": "0.1",
+  "keywords": "arduino, avr, light, lantern, lamp",
+  "description": "A base start for a modern DIY light",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/tylercorleone/gnulight.git"
+  },
+  "dependencies":
+  [
+    {
+        "name": "Components",
+        "version": "https://github.com/tylercorleone/Components.git"
+    }
+  ]
+}
+
