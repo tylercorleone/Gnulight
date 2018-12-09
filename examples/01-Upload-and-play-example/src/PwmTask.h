@@ -21,7 +21,7 @@ private:
 	uint32_t highTime= -1;
 };
 
-#define PWM_PERIOD MsToTaskTime(33)
+#define PWM_PERIOD MsToTaskTime(25)
 
 PwmTask::PwmTask(uint8_t pin, uint8_t initialPinLevel) :
 		Task(MsToTaskTime(-1)), pin(pin), pinLevel(initialPinLevel) {
