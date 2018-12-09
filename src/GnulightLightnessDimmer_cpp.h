@@ -7,7 +7,7 @@ inline GnulightLightnessDimmer::GnulightLightnessDimmer(
 }
 
 inline void GnulightLightnessDimmer::setLevel(float level, uint32_t duration) {
-	debugIfNamed("setLevel(%f, %u)", level, duration);
+	logger.debug("setLevel(%f, %u)", level, duration);
 
 	gradualLevelSetter->setLevel(level, duration);
 }

@@ -3,7 +3,7 @@
 
 inline TempMonitor::TempMonitor(Gnulight &gnulight,
 		float (*temperatureReadFunction)() = nullptr) :
-		Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)), DeviceAware(gnulight), Loggable(
+		Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)), DeviceAware(gnulight), Component(
 				" tempMon"), readTemperature(temperatureReadFunction) {
 }
 
@@ -26,8 +26,8 @@ inline void TempMonitor::OnUpdate(uint32_t deltaTime) {
 		float temperature = readTemperature();
 		tempCausedLimit = TEMP_TO_LIGHT_LIMIT(temperature);
 
-		debugIfNamed("%f deg.", temperature);
-		traceIfNamed("limit %f", tempCausedLimit);
+		logger.debug("%f deg.", temperature);
+		logger.trace("limit %f", tempCausedLimit);
 
 		Device().lightDriver.setTemperatureCausedLimit(tempCausedLimit);
 	}
@@ -37,7 +37,7 @@ inline float TempMonitor::temperatureToLightLimit(float temperature) {
 	float PIDvar = getTemperaturePIDVar(temperature);
 	float limit = tempCausedLimit * (1.0f + PIDvar);
 
-	traceIfNamed("PID: %f", PIDvar);
+	logger.trace("PID: %f", PIDvar);
 
 	return _constrain(limit, 0.0f, 1.0f);
 }
@@ -57,7 +57,7 @@ inline float TempMonitor::getTemperaturePIDVar(float temperature) {
 	temperatureError_2 = temperatureError_1;
 	temperatureError_1 = temperatureError;
 
-	traceIfNamed("P: %f, I: %f, D: %f", Kp * temperatureError, Ki * temperatureErrorIntegral, Kd * derivative);
+	logger.trace("P: %f, I: %f, D: %f", Kp * temperatureError, Ki * temperatureErrorIntegral, Kd * derivative);
 
 	return Kp * temperatureError + Ki * temperatureErrorIntegral
 			+ Kd * derivative;

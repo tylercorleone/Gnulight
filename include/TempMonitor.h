@@ -12,7 +12,7 @@ class Gnulight;
 
 #define TEMP_MONITOR_TEMP_INTEGRAL_MAX 500.0f
 
-class TempMonitor: public Task, public DeviceAware<Gnulight>, public Loggable {
+class TempMonitor: public Task, public DeviceAware<Gnulight>, public Component {
 public:
 	TempMonitor(Gnulight &gnulight, float (*temperatureReadFunction)());
 	bool OnStart() override;

@@ -28,7 +28,7 @@ inline bool ParameterCheckMode::onEnterState(const MessageEvent &event) {
 	// the decimal part
 	strobesForDecimalPartCount = ((int8_t) (parameterValue * 10)) % 10;
 
-	traceIfNamed("%s: %f", event.getMessage(), parameterValue);
+	logger.trace("%s: %f", event.getMessage(), parameterValue);
 
 	Device().lightnessDimmer.setState(OnOffState::OFF); // light could be ON!
 	Device().lightnessDimmer.setMainLevel(MainLightLevel::MED);

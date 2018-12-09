@@ -52,7 +52,7 @@ void LedCurrentDriver::onSetLevel(float level) {
 	// LM2596 uses negative logic on shutdown button
 	pwmWriteHR(LED_PIN, LED_PIN_PWM_MAX - pwmAmount);
 
-	traceIfNamed("PWM: %u, digPotValue: %u", pwmAmount, digPotValue);
+	logger.trace("PWM: %u, digPotValue: %u", pwmAmount, digPotValue);
 }
 
 void digPotWrite(uint16_t value) {

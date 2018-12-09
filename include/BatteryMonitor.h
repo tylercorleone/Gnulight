@@ -10,7 +10,9 @@
 
 class Gnulight;
 
-class BatteryMonitor: public Task, public DeviceAware<Gnulight>, public Loggable {
+class BatteryMonitor: public Task,
+		public DeviceAware<Gnulight>,
+		public Component {
 public:
 	BatteryMonitor(Gnulight &gnulight, Battery &battery);
 	const Battery &battery;

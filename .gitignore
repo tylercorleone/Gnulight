@@ -1,0 +1,7 @@
+.cproject
+.gitignore
+.project
+.settings/
+.travis.yml
+.pioenvs
+.piolibdeps

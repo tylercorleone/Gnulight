@@ -1,7 +1,7 @@
 #include "BatteryMonitor.h"
 
 inline BatteryMonitor::BatteryMonitor(Gnulight &gnulight, Battery &battery) :
-		Task(BATTERY_MONITOR_INTERVAL_MS), DeviceAware(gnulight), Loggable(
+		Task(BATTERY_MONITOR_INTERVAL_MS), DeviceAware(gnulight), Component(
 				" battMon"), battery(battery) {
 }
 
@@ -18,7 +18,7 @@ inline void BatteryMonitor::OnStop() {
 inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 	float remainingCharge = battery.getRemainingCharge();
 
-	debugIfNamed("batt. %d%%", _round(remainingCharge * 100));
+	logger.debug("batt. %d%%", _round(remainingCharge * 100));
 
 	if (remainingCharge > remainingChargeCausingStepdown) {
 
@@ -38,7 +38,7 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 
 	float batteryCausedLimit = BATTERY_CHARGE_TO_LIGHT_LIMIT(remainingCharge);
 
-	traceIfNamed("limit %f", batteryCausedLimit);
+	logger.trace("limit %f", batteryCausedLimit);
 
 	Device().lightDriver.setBatteryCausedLimit(batteryCausedLimit);
 
@@ -48,6 +48,6 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 }
 
 inline void BatteryMonitor::onEmptyBattery() {
-	warnIfNamed("empty batt!");
+	logger.warn("empty batt!");
 	Device().enterState(Device().offMode);
 }

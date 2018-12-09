@@ -15,42 +15,28 @@
 #include "TempMonitor.h"
 
 class Gnulight : public GenericDevice {
-	friend class GnulightHelper;
-	friend class TempMonitor;
-	friend class BatteryMonitor;
-	friend class OffMode;
-	friend class ConstantLightMode;
-	friend class StrobeMode;
-	friend class ParameterCheckMode;
 public:
-	Gnulight(GnulightLightDriver &brightnessDriver, const char *deviceName =
-			"Gnulight");
-	Button button { *this , " button"};
-protected:
-	virtual void onSetup() override;
+	Gnulight(GnulightLightDriver &lightDriver, const char *name = "Gnulight");
 	void setState(OnOffState state);
-	virtual void onSwitchOn();
-	virtual void onSwitchOff();
 
-	/*
-	 * Main components
-	 */
+	/* Main components */
+	Button button { *this , " button"};
 	GnulightLightDriver &lightDriver;
 	GnulightLightnessDimmer lightnessDimmer { lightDriver, *this };
 
-	/*
-	 * Optional components
-	 */
+	/* Optional components */
 	BatteryMonitor *pBatteryMonitor = nullptr;
 	TempMonitor *pTempMonitor = nullptr;
 
-	/*
-	 * Modes
-	 */
+	/* Function modes */
 	OffMode offMode {*this};
 	ConstantLightMode constantLightMode {*this};
 	StrobeMode strobeMode {*this};
 	ParameterCheckMode parameterCheckMode {*this};
+protected:
+	virtual void onSetup() override;
+	virtual void onSwitchOn();
+	virtual void onSwitchOff();
 };
 
 #include "Gnulight_cpp.h"

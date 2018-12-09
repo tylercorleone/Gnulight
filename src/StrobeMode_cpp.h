@@ -5,7 +5,7 @@ inline StrobeMode::StrobeMode(Gnulight &gnulight) :
 }
 
 inline bool StrobeMode::onEnterState(const ButtonEvent &event) {
-	debugIfNamed("type %d", strobeIndex);
+	logger.debug("type %d", strobeIndex);
 
 	t_0 = MILLIS_PROVIDER();
 
@@ -36,7 +36,7 @@ inline bool StrobeMode::handleEvent(const ButtonEvent &event) {
 			return true;
 		case 2:
 			strobeIndex = (strobeIndex + 1) % STROBE_TYPES_COUNT;
-			debugIfNamed("type %d", strobeIndex);
+			logger.debug("type %d", strobeIndex);
 
 			if (strobes[strobeIndex] == SINUSOIDAL_WAVE
 					|| strobes[strobeIndex] == TRIANGULAR_WAVE) {

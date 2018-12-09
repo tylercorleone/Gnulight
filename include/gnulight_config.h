@@ -134,6 +134,10 @@ inline float batteryChargeToLightLimit(float charge) {
 #endif
 
 /* Logging configuration */
+#ifndef LOG_LEVEL
+#define LOG_LEVEL DEBUG_LEVEL
+#endif
+
 #ifndef LOG_BUFFER_SIZE
 #define LOG_BUFFER_SIZE 30
 #endif
