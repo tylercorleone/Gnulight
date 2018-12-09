@@ -1,20 +1,19 @@
-#include "PowerOffMode.h"
+#include "OffMode.h"
 
-inline PowerOffMode::PowerOffMode(Gnulight &gnulight) :
-		State(gnulight, "powerOffState") {
+inline OffMode::OffMode(Gnulight &gnulight) :
+		State(gnulight, " OffMode") {
 }
 
-inline bool PowerOffMode::onEnterState() {
-	Device().lightDimmer.setState(OnOffState::OFF);
-	Device().switchPower(OnOffState::OFF);
+inline bool OffMode::onEnterState() {
+	Device().setState(OnOffState::OFF);
 	return true;
 }
 
-inline void PowerOffMode::onExitState() {
-	Device().switchPower(OnOffState::ON);
+inline void OffMode::onExitState() {
+	Device().setState(OnOffState::ON);
 }
 
-inline bool PowerOffMode::handleEvent(const ButtonEvent &event) {
+inline bool OffMode::handleEvent(const ButtonEvent &event) {
 
 	if (event.getClicksCount() > 0) {
 
@@ -33,8 +32,8 @@ inline bool PowerOffMode::handleEvent(const ButtonEvent &event) {
 			Device().enterState(Device().parameterCheckMode, MessageEvent(Device().parameterCheckMode.LAMP_TEMPERATURE_CHECK_MSG));
 			return true;
 		case 6:
-			Device().lightDimmer.isLightnessSimulationEnabled(
-					!Device().lightDimmer.isLightnessSimulationEnabled());
+			Device().lightnessDimmer.isLightnessSimulationEnabled(
+					!Device().lightnessDimmer.isLightnessSimulationEnabled());
 			return true;
 		default:
 			return false;

@@ -1,15 +1,24 @@
-#include <LedCurrentDriver.h>
+#include "../include/LedCurrentDriver.h"
 
 #include <SPI.h>
 #include <PWM.h>
 
 #define LED_PIN_PWM_MAX 65535
-
+#define MIN_LEVEL_WITHOUT_PWM 0.031f
 #define DIG_POT_LEVEL (level - MIN_LEVEL_WITHOUT_PWM) / (1.0f - MIN_LEVEL_WITHOUT_PWM)
 
-LedCurrentDriver::LedCurrentDriver(TaskManager &taskManager) :
-		BrightnessDriver(taskManager) {
+void digPotWrite(uint16_t value);
 
+LedCurrentDriver::LedCurrentDriver() :
+		GnulightLightDriver("currPot") {
+
+}
+
+void LedCurrentDriver::setup() {
+    Timer1_Initialize();
+    SetPinFrequency(LED_PIN, 122);
+    SPI.begin();
+    digitalWrite(PIN_SPI_SS, LOW); // 0.429 -> 0.168 mA
 }
 
 void LedCurrentDriver::onSetLevel(float level) {
@@ -46,7 +55,7 @@ void LedCurrentDriver::onSetLevel(float level) {
 	traceIfNamed("PWM: %u, digPotValue: %u", pwmAmount, digPotValue);
 }
 
-void LedCurrentDriver::digPotWrite(uint16_t value) {
+void digPotWrite(uint16_t value) {
 	SPI.transfer16(0x01FF & value);
 	digitalWrite(PIN_SPI_SS, HIGH);
 	digitalWrite(PIN_SPI_SS, LOW);

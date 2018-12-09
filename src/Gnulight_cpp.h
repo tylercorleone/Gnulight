@@ -1,43 +1,51 @@
 #include "Gnulight.h"
 
-inline Gnulight::Gnulight(BrightnessDriver &brightnessDriver, const char *deviceName) :
-		GenericDevice(deviceName, &powerOffMode), brightnessDriver(
-				brightnessDriver) {
-
+inline Gnulight::Gnulight(GnulightLightDriver &_brightnessDriver,
+		const char *deviceName) :
+		GenericDevice(deviceName, &offMode), lightDriver(
+				_brightnessDriver) {
+	lightDriver.maxBrightnessSetter =
+			new GradualCappablePotentiometerActuator(DELAY_BETWEEN_LEVEL_CHANGE,
+					*this, lightDriver);
 }
 
 inline void Gnulight::onSetup() {
-	button.setName("btn");
-	enterState(powerOffMode);
+	enterState(offMode);
 }
 
-inline void Gnulight::switchPower(OnOffState state) {
-	infoIfNamed("switchPower(%s)", state == OnOffState::ON ? "ON" : "OFF");
+inline void Gnulight::setState(OnOffState state) {
 
 	if (state == OnOffState::ON) {
-		infoIfNamed("HERE GNULIGHT");
-		onPowerOn();
-		if (batteryMonitor != nullptr) {
-			StartTask(batteryMonitor);
+		debugIfNamed("onSwitch%s", "On");
+		onSwitchOn();
+
+		if (pBatteryMonitor != nullptr) {
+			StartTask(pBatteryMonitor);
 		}
-		if (tempMonitor != nullptr) {
-			StartTask(tempMonitor);
+
+		if (pTempMonitor != nullptr) {
+			StartTask(pTempMonitor);
 		}
 	} else {
-		if (batteryMonitor != nullptr) {
-			StopTask(batteryMonitor);
+		if (pBatteryMonitor != nullptr) {
+			StopTask(pBatteryMonitor);
 		}
-		if (tempMonitor != nullptr) {
-			StopTask(tempMonitor);
-		}infoIfNamed("GOODBYE");
-		onPowerOff();
+
+		if (pTempMonitor != nullptr) {
+			StopTask(pTempMonitor);
+		}
+
+		lightnessDimmer.setState(OnOffState::OFF);
+
+		debugIfNamed("onSwitch%s", "Off");
+		onSwitchOff();
 	}
 }
 
-inline void Gnulight::onPowerOn() {
+inline void Gnulight::onSwitchOn() {
 
 }
 
-inline void Gnulight::onPowerOff() {
+inline void Gnulight::onSwitchOff() {
 
 }

@@ -12,7 +12,7 @@ class Gnulight;
 
 #define TEMP_MONITOR_TEMP_INTEGRAL_MAX 500.0f
 
-class TempMonitor: public Task, public DeviceAware<Gnulight>, public Named {
+class TempMonitor: public Task, public DeviceAware<Gnulight>, public Loggable {
 public:
 	TempMonitor(Gnulight &gnulight, float (*temperatureReadFunction)());
 	bool OnStart() override;
@@ -20,7 +20,7 @@ public:
 	void OnUpdate(uint32_t deltaTime) override;
 	float (*readTemperature)();
 private:
-	float calculateTemperatureCurrentLimit(float temperature);
+	float temperatureToLightLimit(float temperature);
 	float getTemperaturePIDVar(float temperature);
 	float calculateDerivate(float f_t, float f_t_1, float f_t_2, float dt);
 	float temperatureErrorIntegral;

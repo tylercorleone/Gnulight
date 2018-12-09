@@ -4,65 +4,64 @@
 #include "gnulight_config.h"
 
 #include <Components.h>
+#include <GnulightLightnessDimmer.h>
 
-#include "BrightnessDriver.h"
-#include "GnulightLightDimmer.h"
+#include "GnulightLightDriver.h"
 #include "ConstantLightMode.h"
 #include "ParameterCheckMode.h"
-#include "PowerOffMode.h"
+#include "OffMode.h"
 #include "StrobeMode.h"
 #include "BatteryMonitor.h"
 #include "TempMonitor.h"
 
 class Gnulight : public GenericDevice {
-	friend class GnulightCustomizer;
+	friend class GnulightHelper;
 	friend class TempMonitor;
 	friend class BatteryMonitor;
-	friend class PowerOffMode;
+	friend class OffMode;
 	friend class ConstantLightMode;
 	friend class StrobeMode;
 	friend class ParameterCheckMode;
 public:
-	Gnulight(BrightnessDriver &brightnessDriver, const char *deviceName =
+	Gnulight(GnulightLightDriver &brightnessDriver, const char *deviceName =
 			"Gnulight");
-	Button button { *this };
+	Button button { *this , " button"};
 protected:
 	virtual void onSetup() override;
-	virtual void onPowerOn();
-	virtual void onPowerOff();
-private:
-	void switchPower(OnOffState state);
+	void setState(OnOffState state);
+	virtual void onSwitchOn();
+	virtual void onSwitchOff();
 
 	/*
 	 * Main components
 	 */
-	BrightnessDriver &brightnessDriver;
-	GnulightLightDimmer lightDimmer { brightnessDriver, *this };
+	GnulightLightDriver &lightDriver;
+	GnulightLightnessDimmer lightnessDimmer { lightDriver, *this };
 
 	/*
 	 * Optional components
 	 */
-	BatteryMonitor *batteryMonitor = nullptr;
-	TempMonitor *tempMonitor = nullptr;
+	BatteryMonitor *pBatteryMonitor = nullptr;
+	TempMonitor *pTempMonitor = nullptr;
 
 	/*
 	 * Modes
 	 */
-	PowerOffMode powerOffMode {*this};
+	OffMode offMode {*this};
 	ConstantLightMode constantLightMode {*this};
 	StrobeMode strobeMode {*this};
 	ParameterCheckMode parameterCheckMode {*this};
 };
 
 #include "Gnulight_cpp.h"
-#include "BrightnessDriver_cpp.h"
-#include "GnulightLightDimmer_cpp.h"
+#include "GnulightLightDriver_cpp.h"
+#include <GnulightLightnessDimmer_cpp.h>
 #include "ConstantLightMode_cpp.h"
 #include "ParameterCheckMode_cpp.h"
-#include "PowerOffMode_cpp.h"
+#include "OffMode_cpp.h"
 #include "StrobeMode_cpp.h"
 #include "BatteryMonitor_cpp.h"
 #include "TempMonitor_cpp.h"
-#include "GnulightCustomizer.h"
+#include "GnulightHelper.h"
 
 #endif

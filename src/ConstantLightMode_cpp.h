@@ -1,32 +1,32 @@
 #include "ConstantLightMode.h"
 
 inline ConstantLightMode::ConstantLightMode(Gnulight &gnulight) :
-		State(gnulight, "constLightState") {
+		State(gnulight, "ConstMod") {
 }
 
 inline bool ConstantLightMode::onEnterState(const ButtonEvent &event) {
-	LightLevelIndex wantedLevel;
+	MainLightLevel wantedLevel;
 
 	if (event.getClicksCount() > 0) {
 		switch (event.getClicksCount()) {
 		case 1:
-			wantedLevel = LightLevelIndex::MAX;
+			wantedLevel = MainLightLevel::MAX;
 			break;
 		case 2:
-			wantedLevel = LightLevelIndex::MED;
+			wantedLevel = MainLightLevel::MED;
 			break;
 		default:
 			return false;
 		}
 	} else if (event.getHoldStepsCount() > 0) {
-		wantedLevel = LightLevelIndex::MIN;
+		wantedLevel = MainLightLevel::MIN;
 	} else {
 		return false;
 	}
 
-	Device().lightDimmer.setLevel(0.0);
-	Device().lightDimmer.setState(OnOffState::ON);
-	Device().lightDimmer.setMainLevel(wantedLevel, MAIN_LEVEL_TRANSITION_DURATION_MS);
+	Device().lightnessDimmer.setLevel(0.0);
+	Device().lightnessDimmer.setState(OnOffState::ON);
+	Device().lightnessDimmer.setMainLevel(wantedLevel, MAIN_LEVEL_TRANSITION_DURATION);
 
 	return true;
 }
@@ -35,16 +35,16 @@ inline bool ConstantLightMode::handleEvent(const ButtonEvent &event) {
 	if (event.getClicksCount() > 0) {
 		switch (event.getClicksCount()) {
 		case 1:
-			Device().enterState(Device().powerOffMode);
+			Device().enterState(Device().offMode);
 			return true;
 		case 2:
-			Device().lightDimmer.setNextSubLevel(MAIN_LEVEL_TRANSITION_DURATION_MS);
+			Device().lightnessDimmer.setNextSubLevel(MAIN_LEVEL_TRANSITION_DURATION);
 			return true;
 		default:
 			return false;
 		}
 	} else if (event.getHoldStepsCount() > 0) {
-		Device().lightDimmer.setNextMainLevel(MAIN_LEVEL_TRANSITION_DURATION_MS);
+		Device().lightnessDimmer.setNextMainLevel(MAIN_LEVEL_TRANSITION_DURATION);
 		return true;
 	} else {
 		return false;

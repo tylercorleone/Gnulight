@@ -3,8 +3,8 @@
 
 inline TempMonitor::TempMonitor(Gnulight &gnulight,
 		float (*temperatureReadFunction)() = nullptr) :
-		Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)), DeviceAware(gnulight), Named(
-				"lightMonitor"), readTemperature(temperatureReadFunction) {
+		Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)), DeviceAware(gnulight), Loggable(
+				" tempMon"), readTemperature(temperatureReadFunction) {
 }
 
 inline bool TempMonitor::OnStart() {
@@ -16,22 +16,24 @@ inline bool TempMonitor::OnStart() {
 }
 
 inline void TempMonitor::OnStop() {
-	Device().brightnessDriver.setTemperatureCausedLimit(1.0f);
+	Device().lightDriver.setTemperatureCausedLimit(1.0f);
 }
 
 inline void TempMonitor::OnUpdate(uint32_t deltaTime) {
-	if (Device().brightnessDriver.getLevel()
+	if (Device().lightDriver.getLevel()
 			>= TEMP_MONITOR_LEVEL_ACTIVATION_THRESHOLD) {
+
 		float temperature = readTemperature();
-		tempCausedLimit = calculateTemperatureCurrentLimit(temperature);
+		tempCausedLimit = TEMP_TO_LIGHT_LIMIT(temperature);
 
-		debugIfNamed("temp.: %f, limit: %f", temperature, tempCausedLimit);
+		debugIfNamed("%f deg.", temperature);
+		traceIfNamed("limit %f", tempCausedLimit);
 
-		Device().brightnessDriver.setTemperatureCausedLimit(tempCausedLimit);
+		Device().lightDriver.setTemperatureCausedLimit(tempCausedLimit);
 	}
 }
 
-inline float TempMonitor::calculateTemperatureCurrentLimit(float temperature) {
+inline float TempMonitor::temperatureToLightLimit(float temperature) {
 	float PIDvar = getTemperaturePIDVar(temperature);
 	float limit = tempCausedLimit * (1.0f + PIDvar);
 

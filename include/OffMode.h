@@ -1,13 +1,13 @@
-#ifndef POWEROFFMODE_H
-#define POWEROFFMODE_H
+#ifndef OFFMODE_H
+#define OFFMODE_H
 
 #include <Components.h>
 
 class Gnulight;
 
-class PowerOffMode: public State<Gnulight, ButtonEvent> {
+class OffMode: public State<Gnulight, ButtonEvent> {
 public:
-	PowerOffMode(Gnulight &gnulight);
+	OffMode(Gnulight &gnulight);
 protected:
 	bool onEnterState() override;
 	void onExitState() override;

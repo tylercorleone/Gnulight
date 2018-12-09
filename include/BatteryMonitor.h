@@ -10,7 +10,7 @@
 
 class Gnulight;
 
-class BatteryMonitor: public Task, public DeviceAware<Gnulight>, public Named {
+class BatteryMonitor: public Task, public DeviceAware<Gnulight>, public Loggable {
 public:
 	BatteryMonitor(Gnulight &gnulight, Battery &battery);
 	const Battery &battery;
@@ -18,8 +18,7 @@ private:
 	bool OnStart() override;
 	void OnStop() override;
 	void OnUpdate(uint32_t deltaTime) override;
-	float calculateInstantaneousMaxCurrent(float remainingCharge);
-	void onEmptyBattery();
+	virtual void onEmptyBattery();
 	float remainingChargeCausingStepdown = 1.0f;
 };
 

@@ -16,7 +16,7 @@ protected:
 	bool onEnterState(const MessageEvent &event) override;
 	void onExitState() override;
 	static uint32_t switchLightStatus(ParameterCheckMode *_this);
-	FunctionsSequenceTask& renderValueWithFlashes = SequenceTaskBuilder::begin(
+	Procedure &renderValueWithFlashes = ProcedureBuilder::begin(
 			ParameterCheckMode::switchLightStatus, this).thenRepeat();
 	int8_t strobesForIntegerPartCount = 0;
 	int8_t strobesForDecimalPartCount = 0;

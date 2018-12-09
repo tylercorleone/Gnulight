@@ -1,8 +1,8 @@
 #include "BatteryMonitor.h"
 
 inline BatteryMonitor::BatteryMonitor(Gnulight &gnulight, Battery &battery) :
-		Task(BATTERY_LEVEL_MONITOR_INTERVAL_MS), DeviceAware(gnulight), Named(
-				"battMonitor"), battery(battery) {
+		Task(BATTERY_MONITOR_INTERVAL_MS), DeviceAware(gnulight), Loggable(
+				" battMon"), battery(battery) {
 }
 
 inline bool BatteryMonitor::OnStart() {
@@ -12,20 +12,20 @@ inline bool BatteryMonitor::OnStart() {
 }
 
 inline void BatteryMonitor::OnStop() {
-	Device().brightnessDriver.setBatteryCausedLimit(1.0f);
+	Device().lightDriver.setBatteryCausedLimit(1.0f);
 }
 
 inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 	float remainingCharge = battery.getRemainingCharge();
 
-	debugIfNamed("batt: %f", remainingCharge);
+	debugIfNamed("batt. %d%%", _round(remainingCharge * 100));
 
 	if (remainingCharge > remainingChargeCausingStepdown) {
 
 		/*
 		 * recharged
 		 */
-		if (remainingCharge < (remainingChargeCausingStepdown + FILTERED_RECHARGE_AMOUNT)) {
+		if (remainingCharge < (remainingChargeCausingStepdown + BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT)) {
 
 			/*
 			 * but not sufficiently
@@ -36,36 +36,18 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 
 	remainingChargeCausingStepdown = remainingCharge;
 
-	float batteryCausedLimit = calculateInstantaneousMaxCurrent(
-			remainingCharge);
+	float batteryCausedLimit = BATTERY_CHARGE_TO_LIGHT_LIMIT(remainingCharge);
 
-	debugIfNamed("limit: %f", batteryCausedLimit);
+	traceIfNamed("limit %f", batteryCausedLimit);
 
-	Device().brightnessDriver.setBatteryCausedLimit(batteryCausedLimit);
+	Device().lightDriver.setBatteryCausedLimit(batteryCausedLimit);
 
 	if (batteryCausedLimit == 0.0) {
-		onEmptyBattery();
+		BATTERY_MONITOR_ON_EMPTY_BATTERY();
 	}
-}
-
-inline float BatteryMonitor::calculateInstantaneousMaxCurrent(float remainingCharge) {
-	if (remainingCharge <= 0.0f) {
-		return 0.0;
-	} else if (remainingCharge < 0.05f) {
-		return 0.05f;
-	} else if (remainingCharge < 0.15f) {
-		return 0.1f;
-	} else if (remainingCharge < 0.25f) {
-		return 0.25f;
-	} else if (remainingCharge < 0.35f) {
-		return 0.5f;
-	}
-
-	return 1.0f;
 }
 
 inline void BatteryMonitor::onEmptyBattery() {
-	infoIfNamed("Empty batt.!");
-	Device().enterState(Device().parameterCheckMode,
-			MessageEvent(Device().parameterCheckMode.BATTERY_CHECK_MSG));
+	warnIfNamed("empty batt!");
+	Device().enterState(Device().offMode);
 }

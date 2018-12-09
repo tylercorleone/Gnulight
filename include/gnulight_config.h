@@ -9,9 +9,9 @@
  ***********************************************************
  */
 
-/* Main light levels (lightness) */
+/* GnulightLightnessDimmer configuration */
 #ifndef LEVEL_LOW_1
-#define LEVEL_LOW_1 0.001
+#define LEVEL_LOW_1 0.005
 #endif
 #ifndef LEVEL_LOW_2
 #define LEVEL_LOW_2 0.02
@@ -28,13 +28,14 @@
 #ifndef LEVEL_HIGH_2
 #define LEVEL_HIGH_2 1.0f
 #endif
-
-/* Main level change duration (milliseconds) */
-#ifndef MAIN_LEVEL_TRANSITION_DURATION_MS
-#define MAIN_LEVEL_TRANSITION_DURATION_MS 300
+#ifndef MAIN_LEVEL_TRANSITION_DURATION
+#define MAIN_LEVEL_TRANSITION_DURATION MsToTaskTime(300)
+#endif
+#ifndef LIGHTNESS_TO_BRIGHTNESS_CONVERSION
+#define LIGHTNESS_TO_BRIGHTNESS_CONVERSION(lightness) cieLabConversion(lightness)
 #endif
 
-/* Strobe mode */
+/* StrobeMode configuration */
 #ifndef STROBE_ON_OFF_INIT_PERIOD_MS
 #define STROBE_ON_OFF_INIT_PERIOD_MS 500
 #endif
@@ -57,15 +58,39 @@
 #define STROBE_PERIODICAL_SEQUENCE_PERIOD_MS 2000
 #endif
 
-/* Battery monitor */
-#ifndef BATTERY_LEVEL_MONITOR_INTERVAL_MS
-#define BATTERY_LEVEL_MONITOR_INTERVAL_MS 15000
+/* BatteryMonitor configuration */
+#ifndef BATTERY_MONITOR_INTERVAL_MS
+#define BATTERY_MONITOR_INTERVAL_MS 15000
 #endif
-#ifndef FILTERED_RECHARGE_AMOUNT
-#define FILTERED_RECHARGE_AMOUNT 0.15f
+#ifndef BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT
+#define BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT 0.15f
+#endif
+// Function that maps power-source's charge level to light level
+// Used to step down the light driver (e.g. led current driver)
+// When returns 0.0 the "onEmptyBattery" callback gets called
+#ifndef BATTERY_CHARGE_TO_LIGHT_LIMIT
+#define BATTERY_CHARGE_TO_LIGHT_LIMIT(charge) batteryChargeToLightLimit(charge)
+inline float batteryChargeToLightLimit(float charge) {
+	if (charge <= 0.0f) {
+		return 0.0;
+	} else if (charge < 0.05f) {
+		return 0.05f;
+	} else if (charge < 0.15f) {
+		return 0.1f;
+	} else if (charge < 0.25f) {
+		return 0.25f;
+	} else if (charge < 0.35f) {
+		return 0.5f;
+	}
+
+	return 1.0f;
+}
+#endif
+#ifndef BATTERY_MONITOR_ON_EMPTY_BATTERY
+#define BATTERY_MONITOR_ON_EMPTY_BATTERY this->onEmptyBattery
 #endif
 
-/* Temperature monitor */
+/* TemperatureMonitor configuration */
 #ifndef TEMP_MONITOR_INTERVAL_MS
 #define TEMP_MONITOR_INTERVAL_MS 10000
 #endif
@@ -75,8 +100,13 @@
 #ifndef TEMP_MONITOR_LEVEL_ACTIVATION_THRESHOLD
 #define TEMP_MONITOR_LEVEL_ACTIVATION_THRESHOLD 0.1f
 #endif
+// Function that maps the emitter's temperature to light level
+// Used to step down the light driver (e.g. led current driver)
+#ifndef TEMP_TO_LIGHT_LIMIT
+#define TEMP_TO_LIGHT_LIMIT(temperature) TempMonitor::temperatureToLightLimit(temperature)
+#endif
 
-/* Parameter check mode */
+/* ParameterCheckMode configuration */
 #ifndef PAR_CHECK_STROBE_PERIOD_MS
 #define PAR_CHECK_STROBE_PERIOD_MS 800UL
 #endif
@@ -88,16 +118,24 @@
 #endif
 
 /*
- * Step-up/step-down duration
- * (due to battery/temperature monitor)
+ * Total step-up/step-down duration
+ * e.g. caused by battery/temperature imposed limit
  */
-#ifndef STEP_UP_DOWN_DURATION_MS
-#define STEP_UP_DOWN_DURATION_MS 2000
+#ifndef STEP_UP_DOWN_DURATION
+#define STEP_UP_DOWN_DURATION MsToTaskTime(2000)
 #endif
 
-/* Milliseconds between each level increment/decrement step */
-#ifndef DELAY_BETWEEN_LEVEL_CHANGE_MS
-#define DELAY_BETWEEN_LEVEL_CHANGE_MS 30
+/*
+ * Delay between level's increment/decrement steps
+ * e.g. main level change, battery or temperature step-up/step-down etc.
+ */
+#ifndef DELAY_BETWEEN_LEVEL_CHANGE
+#define DELAY_BETWEEN_LEVEL_CHANGE MsToTaskTime(30)
+#endif
+
+/* Logging configuration */
+#ifndef LOG_BUFFER_SIZE
+#define LOG_BUFFER_SIZE 30
 #endif
 
 #endif
