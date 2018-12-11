@@ -7,7 +7,7 @@ inline BatteryMonitor::BatteryMonitor(Gnulight &gnulight, Battery &battery) :
 
 inline bool BatteryMonitor::OnStart() {
 	remainingChargeCausingStepdown = 1.0f;
-	OnUpdate(0);
+	setRemainingTime(0);
 	return true;
 }
 

@@ -13,6 +13,7 @@ protected:
 	void onSetup() override;
 	void onSwitchOn() override;
 	void onSwitchOff() override;
+	void onIdle() override;
 	LedCurrentDriver ledCurrentDriver;
 	LithiumBattery battery { 2.8, 3.2, 4.17, 0.053, readBatteryVoltage };
 };

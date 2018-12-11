@@ -20,14 +20,29 @@ void Lantern::onSwitchOn() {
 
 void Lantern::onSwitchOff() {
 	digitalWrite(DEVICES_VCC_PIN, LOW);
+	onIdle();
+}
 
-	// disable watchdog so it doesn't wake us up
+void Lantern::onIdle() {
+	// disable watchdog
 	wdt_reset();
 	wdt_disable();
 
-	LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
+	if (getState() == OnOffState::OFF) {
+		LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
+	} else {
 
-	// enable watch dog after wake up
+#ifdef LOG_ENABLED
+		LowPower.idle(SLEEP_FOREVER, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_ON,
+				SPI_OFF, USART0_ON, TWI_OFF);
+#else
+		LowPower.idle(SLEEP_FOREVER, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_ON,
+				SPI_OFF, USART0_OFF, TWI_OFF);
+#endif
+
+	}
+
+	// enable watch dog
 	wdt_reset();
 	wdt_enable(WDTO_X);
 }

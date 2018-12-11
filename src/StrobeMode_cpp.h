@@ -17,12 +17,12 @@ inline bool StrobeMode::onEnterState(const ButtonEvent &event) {
 		Device().lightnessDimmer.setState(OnOffState::ON);
 	}
 
-	Device().StartTask(&toggleLightStatusTask);
+	Device().getTaskManager().StartTask(&toggleLightStatusTask);
 	return true;
 }
 
 inline void StrobeMode::onExitState() {
-	Device().StopTask(&toggleLightStatusTask);
+	Device().getTaskManager().StopTask(&toggleLightStatusTask);
 }
 
 inline bool StrobeMode::handleEvent(const ButtonEvent &event) {
@@ -49,7 +49,7 @@ inline bool StrobeMode::handleEvent(const ButtonEvent &event) {
 			}
 
 			toggleLightStatusTask.setTimeInterval(0);
-			Device().ResetTask(&toggleLightStatusTask);
+			Device().getTaskManager().ResetTask(&toggleLightStatusTask);
 			return true;
 		case 3:
 			if (periodMultiplierX1000 <= 32000) {

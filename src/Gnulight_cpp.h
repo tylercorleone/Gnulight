@@ -3,7 +3,7 @@
 inline Gnulight::Gnulight(GnulightLightDriver &lightDriver, const char *name) :
 		GenericDevice(&offMode, name), lightDriver(lightDriver) {
 	lightDriver.maxBrightnessSetter = new GradualCappablePotentiometerActuator(
-	DELAY_BETWEEN_LEVEL_CHANGE, *this, lightDriver);
+	DELAY_BETWEEN_LEVEL_CHANGE, taskManager, lightDriver);
 }
 
 inline void Gnulight::onSetup() {
@@ -11,25 +11,26 @@ inline void Gnulight::onSetup() {
 }
 
 inline void Gnulight::setState(OnOffState state) {
+	powerState = state;
 
 	if (state == OnOffState::ON) {
 		logger.debug("onSwitch%s", "On");
 		onSwitchOn();
 
 		if (pBatteryMonitor != nullptr) {
-			StartTask(pBatteryMonitor);
+			taskManager.StartTask(pBatteryMonitor);
 		}
 
 		if (pTempMonitor != nullptr) {
-			StartTask(pTempMonitor);
+			taskManager.StartTask(pTempMonitor);
 		}
 	} else {
 		if (pBatteryMonitor != nullptr) {
-			StopTask(pBatteryMonitor);
+			taskManager.StopTask(pBatteryMonitor);
 		}
 
 		if (pTempMonitor != nullptr) {
-			StopTask(pTempMonitor);
+			taskManager.StopTask(pTempMonitor);
 		}
 
 		lightnessDimmer.setState(OnOffState::OFF);
@@ -37,6 +38,10 @@ inline void Gnulight::setState(OnOffState state) {
 		logger.debug("onSwitch%s", "Off");
 		onSwitchOff();
 	}
+}
+
+inline OnOffState Gnulight::getState() {
+	return powerState;
 }
 
 inline void Gnulight::onSwitchOn() {

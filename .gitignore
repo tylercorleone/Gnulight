@@ -5,3 +5,4 @@
 .travis.yml
 .pioenvs
 .piolibdeps
+**/lib/

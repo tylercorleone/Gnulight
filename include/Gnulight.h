@@ -18,11 +18,12 @@ class Gnulight : public GenericDevice {
 public:
 	Gnulight(GnulightLightDriver &lightDriver, const char *name = "Gnulight");
 	void setState(OnOffState state);
+	OnOffState getState();
 
 	/* Main components */
 	Button button { *this , " button"};
 	GnulightLightDriver &lightDriver;
-	GnulightLightnessDimmer lightnessDimmer { lightDriver, *this };
+	GnulightLightnessDimmer lightnessDimmer { lightDriver, taskManager };
 
 	/* Optional components */
 	BatteryMonitor *pBatteryMonitor = nullptr;
@@ -37,6 +38,8 @@ protected:
 	virtual void onSetup() override;
 	virtual void onSwitchOn();
 	virtual void onSwitchOff();
+private:
+	OnOffState powerState = OnOffState::OFF;
 };
 
 #include "Gnulight_cpp.h"

@@ -11,7 +11,7 @@ inline bool TempMonitor::OnStart() {
 	temperatureErrorIntegral = 0.0f;
 	temperatureError_1 = temperatureError_2 = FLT_MAX;
 	tempCausedLimit = 1.0f;
-	OnUpdate(0);
+	setRemainingTime(0);
 	return true;
 }
 

@@ -3,6 +3,10 @@
 
 #define LOG_LEVEL DEBUG_LEVEL
 #define LEVEL_LOW_1 0.001
+/* I want to be alerted when entering idle state
+ * (no tasks running) to debug the onIdle method
+ */
+#define DEBUG_ENTERING_IDLE_STATE
 #include <Gnulight.h>
 
 #define BUTTON_PIN 2

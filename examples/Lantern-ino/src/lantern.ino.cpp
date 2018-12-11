@@ -23,8 +23,7 @@ void setup() {
 }
 
 void loop() {
-//	error("loop()");
-	lantern.Loop(WDTO_X);
+	lantern.loop(WDTO_X);
 }
 
 void buttonStateChangeISR() {

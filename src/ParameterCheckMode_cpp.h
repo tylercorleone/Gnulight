@@ -32,13 +32,13 @@ inline bool ParameterCheckMode::onEnterState(const MessageEvent &event) {
 
 	Device().lightnessDimmer.setState(OnOffState::OFF); // light could be ON!
 	Device().lightnessDimmer.setMainLevel(MainLightLevel::MED);
-	Device().StartTask(&renderValueWithFlashes);
+	Device().getTaskManager().StartTask(&renderValueWithFlashes);
 
 	return true;
 }
 
 inline void ParameterCheckMode::onExitState() {
-	Device().StopTask(&renderValueWithFlashes);
+	Device().getTaskManager().StopTask(&renderValueWithFlashes);
 }
 
 inline uint32_t ParameterCheckMode::switchLightStatus(ParameterCheckMode *_this) {

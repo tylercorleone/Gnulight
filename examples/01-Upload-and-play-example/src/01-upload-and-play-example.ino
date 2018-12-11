@@ -4,8 +4,8 @@
 #include "PwmTask.h"
 
 BuiltinLedDriver ledDriver;
-PwmTask pwmTask { LED_PIN }; // see PwmTask.h
 Gnulight gnulight { ledDriver };
+PwmTask pwmTask { LED_PIN, gnulight.getTaskManager()};
 
 void setup() {
 #ifdef LOG_ENABLED
@@ -32,11 +32,10 @@ void setup() {
 	sendTwoClicks(); // select M2 as MED level
 	sendSingleClick(); // switch OFF
 
-	gnulight.StartTask(&pwmTask);
-	gnulight.StartTask(&demoSequence);
+	gnulight.getTaskManager().StartTask(&demoSequence);
 }
 
 void loop() {
-	gnulight.Loop();
+	gnulight.loop();
 }
 
