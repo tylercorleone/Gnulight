@@ -21,7 +21,7 @@ public:
 	OnOffState getState();
 
 	/* Main components */
-	Button button { *this, " button" };
+	Button button { *this, "  button" };
 	GnulightLightDriver &lightDriver;
 	GnulightLightnessDimmer lightnessDimmer { lightDriver, *this };
 

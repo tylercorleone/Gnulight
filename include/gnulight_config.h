@@ -11,10 +11,10 @@
 
 /* GnulightLightnessDimmer configuration */
 #ifndef LEVEL_LOW_1
-#define LEVEL_LOW_1 0.005
+#define LEVEL_LOW_1 0.005f
 #endif
 #ifndef LEVEL_LOW_2
-#define LEVEL_LOW_2 0.02
+#define LEVEL_LOW_2 0.02f
 #endif
 #ifndef LEVEL_MED_1
 #define LEVEL_MED_1 0.2f

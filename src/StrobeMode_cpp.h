@@ -5,7 +5,7 @@ inline StrobeMode::StrobeMode(Gnulight &gnulight) :
 }
 
 inline bool StrobeMode::onEnterState(const ButtonEvent &event) {
-	logger.debug("type %d", strobeIndex);
+	logger.trace("index %d", strobeIndex);
 
 	t_0 = MILLIS_PROVIDER();
 
@@ -33,10 +33,10 @@ inline bool StrobeMode::handleEvent(const ButtonEvent &event) {
 		switch (event.getClicksCount()) {
 		case 1:
 			Device().enterState(Device().offMode);
-			return true;
+			break;
 		case 2:
 			strobeIndex = (strobeIndex + 1) % STROBE_TYPES_COUNT;
-			logger.debug("type %d", strobeIndex);
+			logger.debug("index %d", strobeIndex);
 
 			if (strobes[strobeIndex] == SINUSOIDAL_WAVE
 					|| strobes[strobeIndex] == TRIANGULAR_WAVE) {
@@ -63,7 +63,7 @@ inline bool StrobeMode::handleEvent(const ButtonEvent &event) {
 		}
 
 	} else if (event.getHoldStepsCount() > 0) {
-		// TODO: we should shut the light off, before?
+		// TODO: should we shut the light off before?
 		waveMaxLevel = Device().lightnessDimmer.setNextMainLevel();
 	} else {
 		return false;
@@ -119,19 +119,19 @@ inline uint32_t StrobeMode::onUpdate(StrobeMode *_this) {
 		return -1;
 	}
 
-	if (CURRENT_STROBE != SINUSOIDAL_WAVE
-			&& CURRENT_STROBE != TRIANGULAR_WAVE) {
+	if (CURRENT_STROBE == SINUSOIDAL_WAVE
+			|| CURRENT_STROBE == TRIANGULAR_WAVE) {
+
+		/*
+		 * it is a wave sequence
+		 */
+		_this->Device().lightnessDimmer.setLevel(nextLevel);
+	} else {
 
 		/*
 		 * it is an ON/OFF strobe
 		 */
 		_this->Device().lightnessDimmer.toggleState();
-	} else {
-
-		/*
-		 * it is a "level-change" sequence
-		 */
-		_this->Device().lightnessDimmer.setLevel(nextLevel);
 	}
 
 	return MsToTaskTime(nextIntervalMs);
@@ -141,7 +141,7 @@ inline uint32_t StrobeMode::onUpdate(StrobeMode *_this) {
 #undef CURRENT_STROBE
 
 inline float StrobeMode::triangularWave(uint32_t millis, uint32_t periodMs) {
-	millis = millis % periodMs;
+	millis %= periodMs;
 	if (millis < periodMs / 2) {
 		return static_cast<float>(millis) / (periodMs / 2);
 	} else {

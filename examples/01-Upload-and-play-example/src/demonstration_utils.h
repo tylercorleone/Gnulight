@@ -30,12 +30,12 @@ float readBatteryVoltage() {
 	return 0.4f;
 }
 
-Procedure &demoSequence = ProcedureBuilder::begin(sendHold, 3000) // switch ON on LOW lever for two seconds
+Procedure &demoSequence = ProcedureBuilder::begin(sendHold, 3000) // switch ON on LOW level for three seconds
 		.then(sendHold, 3000) // then enter MEDIUM level
 		.then(sendHold, 3000) // then enter HIGH level
 		.then(sendSingleClick, 1000) // then switch OFF for one second
 		.then(sendThreeClicks, 0) // then select StrobeMode
-		.then(sendHold, 8000) // and select the high level
+		.then(sendHold, 8000) // set the HIGH level and stay ON for eight seconds
 		.then(sendSingleClick, 1000) // then switch OFF for one second
 		.then(sendFourClicks, 6000) // then enter BatteryChackMode
 		.thenRepeat();

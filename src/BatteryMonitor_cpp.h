@@ -26,14 +26,13 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 							+ BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT)) {
 
 		/*
-		 * recharging (but not sufficiently recharged)
+		 * recharged but not sufficiently
 		 */
 		return;
 	}
 
-	remainingChargeCausingStepdown = remainingCharge;
-
-	float batteryCausedLimit = BATTERY_CHARGE_TO_LIGHT_LIMIT(remainingCharge);
+	float batteryCausedLimit = BATTERY_CHARGE_TO_LIGHT_LIMIT(
+			remainingChargeCausingStepdown = remainingCharge);
 
 	logger.trace("limit %f", batteryCausedLimit);
 

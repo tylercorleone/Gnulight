@@ -16,6 +16,7 @@ public:
 private:
 	float battCausedLimit = 1.0f;
 	float tempCausedLimit = 1.0f;
+	// gets initialized in Gnulight constructor
 	GradualCappablePotentiometerActuator *maxBrightnessSetter;
 };
 

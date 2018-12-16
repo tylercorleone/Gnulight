@@ -20,17 +20,16 @@ void setup() {
 	GnulightHelper::customize(gnulight)
 		.configureBatteryMonitor(0.0f, 1.0f, readBatteryVoltage);
 
+	// initializes the task manager
 	gnulight.setup();
 
 	/* Lets set MEDIUM and HIGH levels to the
 	 * highest available for those groups */
-	sendSingleClick(); // switch ON on HIGH
-	sendTwoClicks(); // select H2 as HIGH level
-	sendSingleClick(); // switch OFF
-
 	sendTwoClicks(); // switch ON on MED
 	sendTwoClicks(); // select M2 as MED level
-	sendSingleClick(); // switch OFF
+	sendHold(); // switch on HIGH level
+	sendTwoClicks(); // select H2 as HIGH level
+	gnulight.enterState(gnulight.offMode); // switch OFF
 
 	gnulight.getTaskManager().StartTask(&demoSequence);
 }

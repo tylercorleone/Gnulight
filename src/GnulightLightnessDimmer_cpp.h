@@ -49,5 +49,5 @@ inline float GnulightLightnessDimmer::setNextSubLevel(uint32_t duration) {
 }
 
 inline void GnulightLightnessDimmer::dimThenShutdown(uint32_t duration) {
-	gradualLevelSetter->setLevel(0.0f, duration, false);
+	gradualLevelSetter->setLevel(0.0f, duration, true);
 }

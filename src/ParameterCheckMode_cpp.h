@@ -21,13 +21,13 @@ inline bool ParameterCheckMode::onEnterState(const MessageEvent &event) {
 	// lets round to the first decimal
 	parameterValue = _round(parameterValue * 10.0f) / 10.0f;
 
+	logger.trace("%s: %f", event.getMessage(), parameterValue);
+
 	// the integer part
 	strobesForIntegerPartCount = (int8_t) parameterValue;
 
 	// the decimal part
 	strobesForDecimalPartCount = ((int8_t) (parameterValue * 10)) % 10;
-
-	logger.trace("%s: %f", event.getMessage(), parameterValue);
 
 	Device().lightnessDimmer.setState(OnOffState::OFF); // light could be ON!
 	Device().lightnessDimmer.setMainLevel(MainLightLevel::MED);
@@ -53,7 +53,7 @@ inline uint32_t ParameterCheckMode::switchLightStatus(ParameterCheckMode *_this)
 
 	_this->Device().lightnessDimmer.toggleState();
 
-	int8_t *pCounter;
+	int8_t *pCounterToDecrement;
 	float intervalMultiplier;
 
 	if (_this->strobesForIntegerPartCount >= 0) {
@@ -61,7 +61,7 @@ inline uint32_t ParameterCheckMode::switchLightStatus(ParameterCheckMode *_this)
 		/*
 		 * Is an integer or the comma
 		 */
-		pCounter = &_this->strobesForIntegerPartCount;
+		pCounterToDecrement = &_this->strobesForIntegerPartCount;
 
 		if (_this->strobesForIntegerPartCount == 0
 				&& _this->Device().lightnessDimmer.getState() == OnOffState::ON) {
@@ -75,12 +75,12 @@ inline uint32_t ParameterCheckMode::switchLightStatus(ParameterCheckMode *_this)
 		/*
 		 * Is a decimal
 		 */
-		pCounter = &_this->strobesForDecimalPartCount;
+		pCounterToDecrement = &_this->strobesForDecimalPartCount;
 		intervalMultiplier = PAR_CHECK_DIGIT_DUTY_CYCLE;
 	}
 
 	if (_this->Device().lightnessDimmer.getState() == OnOffState::OFF) {
-		--*pCounter;
+		--*pCounterToDecrement;
 		intervalMultiplier = 1.0f - intervalMultiplier;
 	}
 

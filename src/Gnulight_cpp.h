@@ -3,7 +3,7 @@
 inline Gnulight::Gnulight(GnulightLightDriver &lightDriver, const char *name) :
 		GenericDevice(&offMode, name), lightDriver(lightDriver) {
 	lightDriver.maxBrightnessSetter = new GradualCappablePotentiometerActuator(
-	DELAY_BETWEEN_LEVEL_CHANGE, taskManager, lightDriver);
+			DELAY_BETWEEN_LEVEL_CHANGE, taskManager, lightDriver);
 }
 
 inline void Gnulight::onSetup() {
