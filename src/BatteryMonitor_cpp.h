@@ -20,18 +20,15 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 
 	logger.debug("batt. %d%%", _round(remainingCharge * 100));
 
-	if (remainingCharge > remainingChargeCausingStepdown) {
+	if (remainingCharge > remainingChargeCausingStepdown
+			&& remainingCharge
+					< (remainingChargeCausingStepdown
+							+ BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT)) {
 
 		/*
-		 * recharged
+		 * recharging (but not sufficiently recharged)
 		 */
-		if (remainingCharge < (remainingChargeCausingStepdown + BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT)) {
-
-			/*
-			 * but not sufficiently
-			 */
-			return;
-		}
+		return;
 	}
 
 	remainingChargeCausingStepdown = remainingCharge;

@@ -47,30 +47,30 @@ inline bool StrobeMode::handleEvent(const ButtonEvent &event) {
 						currentMainLevel);
 				Device().lightnessDimmer.setState(OnOffState::ON);
 			}
-
-			toggleLightStatusTask.setTimeInterval(0);
-			Device().getTaskManager().ResetTask(&toggleLightStatusTask);
-			return true;
+			break;
 		case 3:
 			if (periodMultiplierX1000 <= 32000) {
 				periodMultiplierX1000 *= 2;
 			}
-			return true;
+			break;
 		case 4:
 			if (periodMultiplierX1000 > 125) {
 				periodMultiplierX1000 /= 2;
 			}
-			return true;
+			break;
 		default:
 			return false;
 		}
 
 	} else if (event.getHoldStepsCount() > 0) {
+		// TODO: we should shut the light off, before?
 		waveMaxLevel = Device().lightnessDimmer.setNextMainLevel();
-		return true;
 	} else {
 		return false;
 	}
+
+	toggleLightStatusTask.setTimeInterval(0);
+	return true;
 }
 
 #define THE_PERIOD ((uint32_t) STROBE_PERIODICAL_SEQUENCE_PERIOD_MS * _this->periodMultiplierX1000 / 1000)

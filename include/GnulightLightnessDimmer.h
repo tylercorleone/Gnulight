@@ -13,15 +13,18 @@ enum MainLightLevel {
 	MIN, MED, MAX
 };
 
-class GnulightLightnessDimmer: public LightnessDimmer {
+class Gnulight;
+
+class GnulightLightnessDimmer: public LightnessDimmer, public DeviceAware<Gnulight> {
 public:
-	GnulightLightnessDimmer(Potentiometer &currentPotentiometer, TaskManager &taskManager);
+	GnulightLightnessDimmer(Potentiometer &currentPotentiometer, Gnulight &gnulight);
 	using LightnessDimmer::setLevel;
 	void setLevel(float level, uint32_t duration);
 	MainLightLevel getCurrentMainLevel();
 	float setMainLevel(MainLightLevel, uint32_t duration = 0);
 	float setNextMainLevel(uint32_t duration = 0);
 	float setNextSubLevel(uint32_t duration = 0);
+	void dimThenShutdown(uint32_t duration = 0);
 protected:
 	MainLightLevel mainLightLevels[MAIN_LEVELS_COUNT] = { MainLightLevel::MIN,
 			MainLightLevel::MED, MainLightLevel::MAX };

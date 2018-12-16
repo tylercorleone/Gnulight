@@ -8,11 +8,10 @@
 class GnulightHelper {
 public:
 	static GnulightHelper customize(Gnulight &gnulight);
-	GnulightHelper configureBatteryMonitor(Battery &battery);
-	GnulightHelper configureBatteryMonitor(float voltageEmpty,
+	GnulightHelper& configureBatteryMonitor(Battery &battery);
+	GnulightHelper& configureBatteryMonitor(float voltageEmpty,
 			float voltageFull, float (*readVoltageFunc)());
-	GnulightHelper configureTemperatureMonitor(float (*temperatureReadFunc)());
-	Gnulight* build();
+	GnulightHelper& configureTemperatureMonitor(float (*temperatureReadFunc)());
 private:
 	GnulightHelper(Gnulight &instance);
 	Gnulight &instance;
@@ -27,13 +26,13 @@ inline GnulightHelper GnulightHelper::customize(Gnulight &gnulight) {
 	return GnulightHelper { gnulight };
 }
 
-inline GnulightHelper GnulightHelper::configureBatteryMonitor(
+inline GnulightHelper& GnulightHelper::configureBatteryMonitor(
 		Battery &battery) {
 	instance.pBatteryMonitor = new BatteryMonitor(instance, battery);
 	return *this;
 }
 
-inline GnulightHelper GnulightHelper::configureBatteryMonitor(
+inline GnulightHelper& GnulightHelper::configureBatteryMonitor(
 		float voltageEmpty, float voltageFull, float (*readVoltageFunc)()) {
 	LinearCapacityBattery *pBattery = new LinearCapacityBattery(voltageEmpty,
 			voltageFull, readVoltageFunc);
@@ -41,7 +40,7 @@ inline GnulightHelper GnulightHelper::configureBatteryMonitor(
 	return *this;
 }
 
-inline GnulightHelper GnulightHelper::configureTemperatureMonitor(
+inline GnulightHelper& GnulightHelper::configureTemperatureMonitor(
 		float (*temperatureReadFunc)()) {
 	instance.pTempMonitor = new TempMonitor(instance, temperatureReadFunc);
 	return *this;

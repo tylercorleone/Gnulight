@@ -21,19 +21,19 @@ public:
 	OnOffState getState();
 
 	/* Main components */
-	Button button { *this , " button"};
+	Button button { *this, " button" };
 	GnulightLightDriver &lightDriver;
-	GnulightLightnessDimmer lightnessDimmer { lightDriver, taskManager };
+	GnulightLightnessDimmer lightnessDimmer { lightDriver, *this };
 
 	/* Optional components */
 	BatteryMonitor *pBatteryMonitor = nullptr;
 	TempMonitor *pTempMonitor = nullptr;
 
 	/* Function modes */
-	OffMode offMode {*this};
-	ConstantLightMode constantLightMode {*this};
-	StrobeMode strobeMode {*this};
-	ParameterCheckMode parameterCheckMode {*this};
+	OffMode offMode { *this };
+	ConstantLightMode constantLightMode { *this };
+	StrobeMode strobeMode { *this };
+	ParameterCheckMode parameterCheckMode { *this };
 protected:
 	virtual void onSetup() override;
 	virtual void onSwitchOn();

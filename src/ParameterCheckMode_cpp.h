@@ -7,14 +7,13 @@ inline ParameterCheckMode::ParameterCheckMode(Gnulight &gnulight) :
 inline bool ParameterCheckMode::onEnterState(const MessageEvent &event) {
 	float parameterValue;
 
-	if (event.equals(BATTERY_CHECK_MSG) && Device().pBatteryMonitor != nullptr) {
-
-		parameterValue = _round(Device().pBatteryMonitor->battery.getRemainingCharge() * 10.0f);
-
-	} else if (event.equals(LAMP_TEMPERATURE_CHECK_MSG) && Device().pTempMonitor != nullptr) {
-
+	if (event.equals(BATTERY_CHECK_MSG)
+			&& Device().pBatteryMonitor != nullptr) {
+		parameterValue = _round(
+				Device().pBatteryMonitor->battery.getRemainingCharge() * 10.0f);
+	} else if (event.equals(LAMP_TEMPERATURE_CHECK_MSG)
+			&& Device().pTempMonitor != nullptr) {
 		parameterValue = Device().pTempMonitor->readTemperature() / 10.0f;
-
 	} else {
 		return false;
 	}

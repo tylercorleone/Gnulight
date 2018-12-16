@@ -1,14 +1,22 @@
 #include "GnulightLightnessDimmer.h"
 
+inline void powerOffGnulight(Gnulight *gnulight) {
+	gnulight->enterState(gnulight->offMode);
+}
+
 inline GnulightLightnessDimmer::GnulightLightnessDimmer(
-		Potentiometer &brightnessPotentiometer, TaskManager &taskManager) :
-		LightnessDimmer(brightnessPotentiometer, "lnssDimm") {
-	gradualLevelSetter = new GradualPotentiometerActuator(DELAY_BETWEEN_LEVEL_CHANGE, taskManager, *this);
+		Potentiometer &brightnessPotentiometer, Gnulight &gnulight) :
+		LightnessDimmer(brightnessPotentiometer, "lnssDimm"), DeviceAware(
+				gnulight) {
+	gradualLevelSetter = new GradualPotentiometerActuator(
+			DELAY_BETWEEN_LEVEL_CHANGE, Device().getTaskManager(), *this);
+	RunnableFunction *downShutter = new RunnableFunction(powerOffGnulight,
+			&Device());
+	gradualLevelSetter->then(*downShutter);
 }
 
 inline void GnulightLightnessDimmer::setLevel(float level, uint32_t duration) {
 	logger.debug("setLevel(%f, %u)", level, duration);
-
 	gradualLevelSetter->setLevel(level, duration);
 }
 
@@ -38,4 +46,8 @@ inline float GnulightLightnessDimmer::setNextSubLevel(uint32_t duration) {
 			(currentSubLevelsIndexes[currentMainLevelIndex] + 1)
 					% SUBLEVELS_COUNT;
 	return setMainLevel(mainLightLevels[currentMainLevelIndex], duration);
+}
+
+inline void GnulightLightnessDimmer::dimThenShutdown(uint32_t duration) {
+	gradualLevelSetter->setLevel(0.0f, duration, false);
 }
