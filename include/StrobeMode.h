@@ -16,6 +16,7 @@ protected:
 	bool onEnterState(const ButtonEvent &event) override;
 	void onExitState() override;
 	bool handleEvent(const ButtonEvent &event) override;
+	void startStrobe();
 	const SignalType signalTypes[SIGNAL_TYPES_COUNT] = {
 			SignalType::SINUSOIDAL_WAVE, SignalType::TRIANGULAR_WAVE,
 			SignalType::SQUARE_WAVE };

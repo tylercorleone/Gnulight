@@ -36,7 +36,7 @@ inline bool ConstantLightMode::handleEvent(const ButtonEvent &event) {
 	if (event.getClicksCount() > 0) {
 		switch (event.getClicksCount()) {
 		case 1:
-			Device().lightnessDimmer.dimThenShutdown(MAIN_LEVEL_TRANSITION_DURATION);
+			Device().enterState(Device().offMode);
 			return true;
 		case 2:
 			Device().lightnessDimmer.setNextSubLevel(MAIN_LEVEL_TRANSITION_DURATION);

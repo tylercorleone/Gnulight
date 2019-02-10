@@ -14,7 +14,7 @@ public:
 	PwmTask(uint8_t pin, TaskManager &taskManager);
 	void analogWrite(uint8_t value);
 protected:
-	void OnUpdate(uint32_t taskTime) override;
+	void OnUpdate(uint32_t deltaTime) override;
 private:
 	uint8_t pin;
 	uint8_t pinLevel;
@@ -41,7 +41,7 @@ inline void PwmTask::analogWrite(uint8_t value) {
 	}
 }
 
-inline void PwmTask::OnUpdate(uint32_t taskTime) {
+inline void PwmTask::OnUpdate(uint32_t deltaTime) {
 	if (pinLevel == HIGH) {
 		digitalWrite(pin, pinLevel = LOW);
 		setTimeInterval(PWM_PERIOD - highTime);

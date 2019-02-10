@@ -18,7 +18,7 @@ inline void BatteryMonitor::OnStop() {
 inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 	float remainingCharge = battery.getRemainingCharge();
 
-	logger.debug("batt. %d%%", _round(remainingCharge * 100));
+	logger.debug("batt. %d%%", _round(remainingCharge * 100.0f));
 
 	if (remainingCharge > remainingChargeCausingStepdown
 			&& remainingCharge
@@ -33,8 +33,6 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 
 	float batteryCausedLimit = BATTERY_CHARGE_TO_LIGHT_LIMIT(
 			remainingChargeCausingStepdown = remainingCharge);
-
-	logger.trace("limit %f", batteryCausedLimit);
 
 	Device().lightDriver.setBatteryCausedLimit(batteryCausedLimit);
 

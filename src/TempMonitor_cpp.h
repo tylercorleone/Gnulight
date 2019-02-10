@@ -24,21 +24,15 @@ inline void TempMonitor::OnUpdate(uint32_t deltaTime) {
 			>= TEMP_MONITOR_LEVEL_ACTIVATION_THRESHOLD) {
 
 		float temperature = readTemperature();
-		tempCausedLimit = TEMP_TO_LIGHT_LIMIT(temperature);
-
 		logger.debug("%f deg.", temperature);
-		logger.trace("limit %f", tempCausedLimit);
 
+		tempCausedLimit = TEMP_TO_LIGHT_LIMIT(temperature);
 		Device().lightDriver.setTemperatureCausedLimit(tempCausedLimit);
 	}
 }
 
 inline float TempMonitor::temperatureToLightLimit(float temperature) {
-	float PIDvar = getTemperaturePIDVar(temperature);
-	float limit = tempCausedLimit * (1.0f + PIDvar);
-
-	logger.trace("PID: %f", PIDvar);
-
+	float limit = tempCausedLimit * (1.0f + getTemperaturePIDVar(temperature));
 	return _constrain(limit, 0.0f, 1.0f);
 }
 

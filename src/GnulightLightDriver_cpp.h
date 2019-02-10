@@ -6,8 +6,8 @@ inline GnulightLightDriver::GnulightLightDriver(const char *name) :
 }
 
 inline void GnulightLightDriver::updateLevelMaxLimit() {
-	float limit = _min(tempCausedLimit, battCausedLimit);
-	maxBrightnessSetter->setLevelMaxLimit(limit, STEP_UP_DOWN_DURATION);
+	maxBrightnessSetter->setLevelMaxLimit(
+			_min(tempCausedLimit, battCausedLimit), STEP_UP_DOWN_DURATION);
 }
 
 inline void GnulightLightDriver::setBatteryCausedLimit(float limit) {

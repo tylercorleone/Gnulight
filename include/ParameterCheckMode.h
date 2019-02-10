@@ -7,7 +7,7 @@
 
 class Gnulight;
 
-class ParameterCheckMode: public State<Gnulight, MessageEvent> {
+class ParameterCheckMode: public State<Gnulight, MessageEvent>, private Task {
 public:
 	const char *BATTERY_CHECK_MSG = "b";
 	const char *LAMP_TEMPERATURE_CHECK_MSG = "t";
@@ -15,9 +15,7 @@ public:
 protected:
 	bool onEnterState(const MessageEvent &event) override;
 	void onExitState() override;
-	static uint32_t switchLightStatus(ParameterCheckMode *_this);
-	Procedure &renderValueWithFlashes = ProcedureBuilder::begin(
-			ParameterCheckMode::switchLightStatus, this).thenRepeat();
+	void OnUpdate(uint32_t deltaTime) override;
 	int8_t strobesForIntegerPartCount = 0;
 	int8_t strobesForDecimalPartCount = 0;
 };
