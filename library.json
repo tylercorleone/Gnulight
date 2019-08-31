@@ -1,6 +1,6 @@
 {
   "name": "Gnulight",
-  "version": "0.1",
+  "version": "0.2",
   "keywords": "arduino, avr, light, lantern, lamp",
   "description": "A base start for a modern DIY light",
   "repository":
