@@ -1,5 +1,5 @@
 #include "custom_gnulight.h"
-#include "demonstration_utils.h"
+#include "utils/demonstration_utils.h"
 #include "BuiltinLedDriver.h"
 #include "PwmTask.h"
 

@@ -1,4 +1,5 @@
 #include "custom_gnulight.h"
+#include "ProcedureBuilder.h"
 
 extern Gnulight gnulight;
 

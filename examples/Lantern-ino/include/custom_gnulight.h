@@ -1,7 +1,7 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#define LOG_LEVEL DEBUG_LEVEL
+#define LOG_LEVEL OFF_LEVEL
 #define LEVEL_LOW_1 0.001
 /* I want to be alerted when entering idle state
  * (no tasks running) to debug the onIdle method
