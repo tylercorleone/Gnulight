@@ -1,7 +1,7 @@
-#ifndef GNULIGHTLIGHTNESSDIMMER_H
-#define GNULIGHTLIGHTNESSDIMMER_H
+#ifndef KISS_LIGHT_LIGHTNESS_DIMMER_H
+#define KISS_LIGHT_LIGHTNESS_DIMMER_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
 #include <Components.h>
 #include <stdint.h>
@@ -13,11 +13,11 @@ enum MainLightLevel {
 	MIN, MED, MAX
 };
 
-class Gnulight;
+class KissLight;
 
-class GnulightLightnessDimmer: public LightnessDimmer, public DeviceAware<Gnulight> {
+class KissLightLightnessDimmer: public LightnessDimmer, public DeviceAware<KissLight> {
 public:
-	GnulightLightnessDimmer(Potentiometer &currentPotentiometer, Gnulight &gnulight);
+	KissLightLightnessDimmer(Potentiometer &currentPotentiometer, KissLight &kissLight);
 	using LightnessDimmer::setLevel;
 	void setLevel(float level, uint32_t duration);
 	MainLightLevel getCurrentMainLevel();

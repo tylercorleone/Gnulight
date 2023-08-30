@@ -10,7 +10,7 @@
 void digPotWrite(uint16_t value);
 
 LedCurrentDriver::LedCurrentDriver() :
-		GnulightLightDriver("currPot") {
+		KissLightLightDriver("currPot") {
 
 }
 

@@ -1,20 +1,20 @@
 #ifndef LIGHTMONITOR_H
 #define LIGHTMONITOR_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
 #include <stdint.h>
 #include <stddef.h>
 #include <Task.h>
 #include <Components.h>
 
-class Gnulight;
+class KissLight;
 
 #define TEMP_MONITOR_TEMP_INTEGRAL_MAX 500.0f
 
-class TempMonitor: public Task, public DeviceAware<Gnulight>, public Component {
+class TempMonitor: public Task, public DeviceAware<KissLight>, public Component {
 public:
-	TempMonitor(Gnulight &gnulight, float (*temperatureReadFunction)());
+	TempMonitor(KissLight &kissLight, float (*temperatureReadFunction)());
 	bool OnStart() override;
 	void OnStop() override;
 	void OnUpdate(uint32_t deltaTime) override;

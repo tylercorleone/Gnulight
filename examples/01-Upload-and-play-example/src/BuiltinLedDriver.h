@@ -1,11 +1,13 @@
-#include "custom_gnulight.h"
-#include "PwmTask.h"
+#include "config.h"
+#include <WS2812FX.h>
 
-extern PwmTask pwmTask;
+#define LED_COUNT 1
 
-class BuiltinLedDriver: public GnulightLightDriver {
+WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_RGB + NEO_KHZ800);
+
+class BuiltinLedDriver: public KissLightLightDriver {
 private:
 	void onSetLevel(float level) override {
-		pwmTask.analogWrite(level * 255);
-	}
+        ws2812fx.setBrightness(level * 100);
+    }
 };

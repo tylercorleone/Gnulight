@@ -7,7 +7,7 @@
  * (no tasks running) to debug the onIdle method
  */
 #define DEBUG_ENTERING_IDLE_STATE
-#include <Gnulight.h>
+#include <KissLight.h>
 
 #define BUTTON_PIN 2
 #define DEVICES_VCC_PIN 5

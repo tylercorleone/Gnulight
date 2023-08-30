@@ -1,17 +1,17 @@
 #ifndef STROBEMODE_H
 #define STROBEMODE_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
-#include <Components.h>
+#include "Components.h"
 
-class Gnulight;
+class KissLight;
 
 #define SIGNAL_TYPES_COUNT 3
 
-class StrobeMode: public State<Gnulight, ButtonEvent> {
+class StrobeMode: public State<KissLight, ButtonEvent> {
 public:
-	StrobeMode(Gnulight &gnulight);
+	StrobeMode(KissLight &kissLight);
 protected:
 	bool onEnterState(const ButtonEvent &event) override;
 	void onExitState() override;

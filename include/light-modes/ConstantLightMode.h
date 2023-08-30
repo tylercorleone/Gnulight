@@ -1,15 +1,15 @@
 #ifndef CONSTANTLIGHTMODE_H
 #define CONSTANTLIGHTMODE_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
-#include <Components.h>
+#include "Components.h"
 
-class Gnulight;
+class KissLight;
 
-class ConstantLightMode: public State<Gnulight, ButtonEvent> {
+class ConstantLightMode: public State<KissLight, ButtonEvent> {
 public:
-	ConstantLightMode(Gnulight &gnulight);
+	ConstantLightMode(KissLight &kissLight);
 protected:
 	bool onEnterState(const ButtonEvent &event) override;
 	bool handleEvent(const ButtonEvent &event) override;

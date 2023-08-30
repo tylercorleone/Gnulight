@@ -1,12 +1,12 @@
 {
-  "name": "Gnulight",
+  "name": "KissLight",
   "version": "0.2",
   "keywords": "arduino, avr, light, lantern, lamp",
   "description": "A base start for a modern DIY light",
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/tylercorleone/gnulight.git"
+    "url": "https://github.com/tylercorleone/kisslight.git"
   },
   "dependencies":
   [
@@ -16,4 +16,3 @@
     }
   ]
 }
-

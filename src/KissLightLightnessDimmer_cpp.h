@@ -1,28 +1,28 @@
-#include "GnulightLightnessDimmer.h"
+#include "KissLightLightnessDimmer.h"
 
-inline void powerOffGnulight(Gnulight *gnulight) {
-	gnulight->enterState(gnulight->offMode);
+inline void powerOffKissLight(KissLight *kissLight) {
+	kissLight->enterState(kissLight->offMode);
 }
 
-inline GnulightLightnessDimmer::GnulightLightnessDimmer(
-		Potentiometer &brightnessPotentiometer, Gnulight &gnulight) :
-		LightnessDimmer(brightnessPotentiometer, "lnssDimm"), DeviceAware(
-				gnulight) {
+inline KissLightLightnessDimmer::KissLightLightnessDimmer(
+		Potentiometer &brightnessPotentiometer, KissLight &kissLight) :
+		LightnessDimmer(brightnessPotentiometer, "lightnessDimmer"), DeviceAware(
+				kissLight) {
 	gradualLevelSetter = new GradualPotentiometerActuator(
 			DELAY_BETWEEN_LEVEL_CHANGE, Device().getTaskManager(), *this);
 }
 
-inline void GnulightLightnessDimmer::setLevel(float level, uint32_t duration) {
+inline void KissLightLightnessDimmer::setLevel(float level, uint32_t duration) {
 	gradualLevelSetter->setLevel(level, duration);
 }
 
-inline MainLightLevel GnulightLightnessDimmer::getCurrentMainLevel() {
+inline MainLightLevel KissLightLightnessDimmer::getCurrentMainLevel() {
 	return mainLightLevels[currentMainLevelIndex];
 }
 
 #define MAIN_LEVEL mainLevels[currentMainLevelIndex][currentSubLevelsIndexes[currentMainLevelIndex]]
 
-inline float GnulightLightnessDimmer::setMainLevel(MainLightLevel levelIndex,
+inline float KissLightLightnessDimmer::setMainLevel(MainLightLevel levelIndex,
 		uint32_t duration) {
 	currentMainLevelIndex = levelIndex;
 	setLevel(MAIN_LEVEL, duration);
@@ -31,13 +31,13 @@ inline float GnulightLightnessDimmer::setMainLevel(MainLightLevel levelIndex,
 
 #undef MAIN_LEVEL
 
-inline float GnulightLightnessDimmer::setNextMainLevel(uint32_t duration) {
+inline float KissLightLightnessDimmer::setNextMainLevel(uint32_t duration) {
 	MainLightLevel nextMainLevel = mainLightLevels[(currentMainLevelIndex + 1)
 			% MAIN_LEVELS_COUNT];
 	return setMainLevel(nextMainLevel, duration);
 }
 
-inline float GnulightLightnessDimmer::setNextSubLevel(uint32_t duration) {
+inline float KissLightLightnessDimmer::setNextSubLevel(uint32_t duration) {
 	currentSubLevelsIndexes[currentMainLevelIndex] =
 			(currentSubLevelsIndexes[currentMainLevelIndex] + 1)
 					% SUBLEVELS_COUNT;

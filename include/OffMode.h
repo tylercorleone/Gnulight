@@ -3,11 +3,11 @@
 
 #include <Components.h>
 
-class Gnulight;
+class KissLight;
 
-class OffMode: public State<Gnulight, ButtonEvent> {
+class OffMode: public State<KissLight, ButtonEvent> {
 public:
-	OffMode(Gnulight &gnulight);
+	OffMode(KissLight &kissLight);
 protected:
 	bool onEnterState() override;
 	void onExitState() override;

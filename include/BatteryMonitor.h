@@ -1,20 +1,20 @@
 #ifndef BATTERYMONITOR_H
 #define BATTERYMONITOR_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
 #include <Components.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <Task.h>
 
-class Gnulight;
+class KissLight;
 
 class BatteryMonitor: public Task,
-		public DeviceAware<Gnulight>,
+		public DeviceAware<KissLight>,
 		public Component {
 public:
-	BatteryMonitor(Gnulight &gnulight, Battery &battery);
+	BatteryMonitor(KissLight &kissLight, Battery &battery);
 	const Battery &battery;
 private:
 	bool OnStart() override;

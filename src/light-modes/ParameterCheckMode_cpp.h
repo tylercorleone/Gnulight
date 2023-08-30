@@ -1,7 +1,7 @@
-#include "ParameterCheckMode.h"
+#include "light-modes/ParameterCheckMode.h"
 
-inline ParameterCheckMode::ParameterCheckMode(Gnulight &gnulight) :
-		State(gnulight, "ParCkMod"), Task(0) {
+inline ParameterCheckMode::ParameterCheckMode(KissLight &kissLight) :
+		State(kissLight, "ParChkMode"), Task(0) {
 }
 
 inline bool ParameterCheckMode::onEnterState(const MessageEvent &event) {

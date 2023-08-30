@@ -1,7 +1,7 @@
-#include "ConstantLightMode.h"
+#include "light-modes/ConstantLightMode.h"
 
-inline ConstantLightMode::ConstantLightMode(Gnulight &gnulight) :
-		State(gnulight, "ConstMod") {
+inline ConstantLightMode::ConstantLightMode(KissLight &kissLight) :
+		State(kissLight, "ConstMode") {
 
 }
 

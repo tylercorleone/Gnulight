@@ -4,14 +4,14 @@
 float readTemperature();
 
 Lantern::Lantern() :
-		Gnulight(ledCurrentDriver, "Lantern") {
+		KissLight(ledCurrentDriver, "Lantern") {
 }
 
 void Lantern::onSetup() {
 	ledCurrentDriver.setup();
 	pBatteryMonitor = new BatteryMonitor(*this, battery);
 	pTempMonitor = new TempMonitor(*this, readTemperature);
-	Gnulight::onSetup();
+	KissLight::onSetup();
 }
 
 void Lantern::onSwitchOn() {

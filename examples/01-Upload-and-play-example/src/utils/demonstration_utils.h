@@ -1,42 +1,40 @@
-#include "custom_gnulight.h"
+#include "config.h"
 #include "ProcedureBuilder.h"
 
-extern Gnulight gnulight;
+extern KissLight kissLight;
 
 /*
  * Utility functions
  */
 void sendSingleClick() {
-	gnulight.receiveEvent(ButtonEvent(1, 0));
+	kissLight.receiveEvent(ButtonEvent(1, 0));
 }
 
 void sendTwoClicks() {
-	gnulight.receiveEvent(ButtonEvent(2, 0));
+	kissLight.receiveEvent(ButtonEvent(2, 0));
 }
 
 void sendThreeClicks() {
-	gnulight.receiveEvent(ButtonEvent(3, 0));
+	kissLight.receiveEvent(ButtonEvent(3, 0));
 }
 
 void sendFourClicks() {
-	gnulight.receiveEvent(ButtonEvent(4, 0));
+	kissLight.receiveEvent(ButtonEvent(4, 0));
 }
 
 void sendHold() {
-	gnulight.receiveEvent(ButtonEvent(0, 1));
+	kissLight.receiveEvent(ButtonEvent(0, 1));
 }
 
 float readBatteryVoltage() {
-	// just for demonstration
-	return 0.4f;
+	return 3.7f; // fixed 3.7 V for demonstration. Actual voltage should be read using an input pin.
 }
 
-Procedure &demoSequence = ProcedureBuilder::begin(sendHold, 3000) // switch ON on LOW level for three seconds
-		.then(sendHold, 3000) // then enter MEDIUM level
-		.then(sendHold, 3000) // then enter HIGH level
-		.then(sendSingleClick, 1000) // then switch OFF for one second
-		.then(sendThreeClicks, 0) // then select StrobeMode
-		.then(sendHold, 8000) // set the HIGH level and stay ON for eight seconds
-		.then(sendSingleClick, 1000) // then switch OFF for one second
-		.then(sendFourClicks, 6000) // then enter BatteryChackMode
+Procedure &demoSequence = ProcedureBuilder::begin(sendHold, 2000) // LOW level for 2 seconds
+		.then(sendHold, 2000) // then MEDIUM level for 2 seconds
+		.then(sendHold, 2000) // then HIGH level for 2 seconds
+		.then(sendSingleClick, 1000) // then OFF for 1 second
+		.then(sendThreeClicks, 0) // then strobe mode
+		.then(sendHold, 5000) // set HIGH level and stay for 5 seconds
+		.then(sendSingleClick, 1000) // then OFF for one second
 		.thenRepeat();

@@ -1,7 +1,7 @@
 #include "BatteryMonitor.h"
 
-inline BatteryMonitor::BatteryMonitor(Gnulight &gnulight, Battery &battery) :
-		Task(BATTERY_MONITOR_INTERVAL_MS), DeviceAware(gnulight), Component(
+inline BatteryMonitor::BatteryMonitor(KissLight &kissLight, Battery &battery) :
+		Task(BATTERY_MONITOR_INTERVAL_MS), DeviceAware(kissLight), Component(
 				" battMon"), battery(battery) {
 }
 

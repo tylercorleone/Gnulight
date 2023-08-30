@@ -1,9 +1,9 @@
 #include "TempMonitor.h"
 #include <float.h>
 
-inline TempMonitor::TempMonitor(Gnulight &gnulight,
+inline TempMonitor::TempMonitor(KissLight &kissLight,
 		float (*temperatureReadFunction)() = nullptr) :
-		Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)), DeviceAware(gnulight), Component(
+		Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)), DeviceAware(kissLight), Component(
 				" tempMon"), readTemperature(temperatureReadFunction) {
 }
 

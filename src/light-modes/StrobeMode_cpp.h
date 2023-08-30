@@ -1,10 +1,10 @@
-#include "StrobeMode.h"
+#include "light-modes/StrobeMode.h"
 
-inline StrobeMode::StrobeMode(Gnulight &gnulight) :
-		State(gnulight, "StrobMod") {
+inline StrobeMode::StrobeMode(KissLight &kissLight) :
+		State(kissLight, "StrobeMode") {
 
-	signalGenerator = new SignalGenerator(gnulight.getTaskManager(),
-			gnulight.lightnessDimmer,
+	signalGenerator = new SignalGenerator(kissLight.getTaskManager(),
+			kissLight.lightnessDimmer,
 			MsToTaskTime(STROBE_LEVEL_REFRESH_INTERVAL_MS));
 }
 

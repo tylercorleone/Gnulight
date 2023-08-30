@@ -1,40 +1,35 @@
-#include "custom_gnulight.h"
+#include "config.h"
 #include "utils/demonstration_utils.h"
 #include "BuiltinLedDriver.h"
-#include "PwmTask.h"
 
 BuiltinLedDriver ledDriver;
-Gnulight gnulight { ledDriver };
-PwmTask pwmTask { LED_PIN, gnulight.getTaskManager()};
+KissLight kissLight { ledDriver };
 
 void setup() {
 #ifdef LOG_ENABLED
 	Serial.begin(9600);
 #endif
-	pinMode(LED_PIN, OUTPUT);
+
+    ws2812fx.init();
+    ws2812fx.setColor(0xFF0000);
+    ws2812fx.setMode(FX_MODE_STATIC);
+    ws2812fx.start();
 
 	/*
-	 * An helper class that simplifies the configuration
+	 * A helper class that simplifies the configuration
 	 * of battery and temperature monitors
 	 */
-	GnulightHelper::customize(gnulight)
-		.configureBatteryMonitor(0.0f, 1.0f, readBatteryVoltage);
+	KissLightHelper::customize(kissLight)
+		.configureBatteryMonitor(3.2f, 4.2f, readBatteryVoltage); // 3.2 V and 4.2 V are just an examle
 
 	// initializes the task manager
-	gnulight.setup();
+	kissLight.setup();
 
-	/* Lets set MEDIUM and HIGH levels to the
-	 * highest available for those groups */
-	sendTwoClicks(); // switch ON on MED
-	sendTwoClicks(); // select M2 as MED level
-	sendHold(); // switch on HIGH level
-	sendTwoClicks(); // select H2 as HIGH level
-	gnulight.enterState(gnulight.offMode); // switch OFF
-
-	gnulight.getTaskManager().StartTask(&demoSequence);
+	kissLight.getTaskManager().StartTask(&demoSequence);
 }
 
 void loop() {
-	gnulight.loop();
+    kissLight.loop();
+    ws2812fx.service();
 }
 

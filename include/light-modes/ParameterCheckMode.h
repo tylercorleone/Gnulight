@@ -1,17 +1,17 @@
 #ifndef PARAMETERCHECKMODE_H
 #define PARAMETERCHECKMODE_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
-#include <Components.h>
+#include "Components.h"
 
-class Gnulight;
+class KissLight;
 
-class ParameterCheckMode: public State<Gnulight, MessageEvent>, private Task {
+class ParameterCheckMode: public State<KissLight, MessageEvent>, private Task {
 public:
 	const char *BATTERY_CHECK_MSG = "b";
 	const char *LAMP_TEMPERATURE_CHECK_MSG = "t";
-	ParameterCheckMode(Gnulight &gnulight);
+	ParameterCheckMode(KissLight &kissLight);
 protected:
 	bool onEnterState(const MessageEvent &event) override;
 	void onExitState() override;

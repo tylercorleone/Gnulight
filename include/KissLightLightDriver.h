@@ -1,22 +1,22 @@
-#ifndef GNULIGHTLIGHTDRIVER_H
-#define GNULIGHTLIGHTDRIVER_H
+#ifndef KISS_LIGHT_LIGHT_DRIVER_H
+#define KISS_LIGHT_LIGHT_DRIVER_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
 #include <Components.h>
 #include <stdint.h>
 
-class GnulightLightDriver: public CappablePotentiometer {
-	friend class Gnulight;
+class KissLightLightDriver: public CappablePotentiometer {
+	friend class KissLight;
 public:
-	GnulightLightDriver(const char *name = "lightDrv");
+	KissLightLightDriver(const char *name = "lightDriver");
 	void updateLevelMaxLimit();
 	void setBatteryCausedLimit(float limit);
 	void setTemperatureCausedLimit(float limit);
 private:
 	float battCausedLimit = 1.0f;
 	float tempCausedLimit = 1.0f;
-	// gets initialized in Gnulight constructor
+	// gets initialized in KissLight constructor
 	GradualCappablePotentiometerActuator *maxBrightnessSetter;
 };
 

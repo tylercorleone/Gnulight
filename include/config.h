@@ -1,36 +1,38 @@
-#ifndef GNULIGHT_CONFIG_H
-#define GNULIGHT_CONFIG_H
+#ifndef KISS_LIGHT_CONFIG_H
+#define KISS_LIGHT_CONFIG_H
 
 /*
- ***********************************************************
- * Default Gnulight's configuration values.                *
- * You can override one or more of them simply redefining  *
- * the value before including <Gnulight.h> in your project *
- ***********************************************************
+ ************************************************************
+ * Default KissLight's configuration values.                *
+ * You can override one or more of them simply redefining   *
+ * the value before including <KissLight.h> in your project *
+ ************************************************************
  */
 
-/* GnulightLightnessDimmer configuration */
+/* KissLightLightnessDimmer configuration - some consideration about lightness and light intensity */
 #ifndef LEVEL_LOW_1
-#define LEVEL_LOW_1 0.005f
+#define LEVEL_LOW_1 0.01f // moonlight mode. Some configurations could have some issues with such a small values. In these cases use a higher value.
 #endif
 #ifndef LEVEL_LOW_2
-#define LEVEL_LOW_2 0.02f
+#define LEVEL_LOW_2 0.05f
 #endif
 #ifndef LEVEL_MED_1
 #define LEVEL_MED_1 0.2f
 #endif
 #ifndef LEVEL_MED_2
-#define LEVEL_MED_2 0.5f
+#define LEVEL_MED_2 0.5f // 50% lightness -> 18% light intensity
 #endif
 #ifndef LEVEL_HIGH_1
-#define LEVEL_HIGH_1 0.75f
+#define LEVEL_HIGH_1 0.75f // 75% lightness -> 48% light intensity, that is, almost full lightness at the half power consumption
 #endif
 #ifndef LEVEL_HIGH_2
 #define LEVEL_HIGH_2 1.0f
 #endif
+
 #ifndef MAIN_LEVEL_TRANSITION_DURATION
 #define MAIN_LEVEL_TRANSITION_DURATION MsToTaskTime(300)
 #endif
+
 #ifndef LIGHTNESS_TO_BRIGHTNESS_CONVERSION
 #define LIGHTNESS_TO_BRIGHTNESS_CONVERSION(lightness) cieLabConversion(lightness)
 #endif
@@ -65,6 +67,7 @@
 #ifndef BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT
 #define BATTERY_MONITOR_FILTERED_RECHARGE_AMOUNT 0.15f
 #endif
+
 // Function that maps power-source's charge level to light level
 // Used to step down the light driver (e.g. led current driver)
 // When returns 0.0 the "onEmptyBattery" callback gets called
@@ -86,6 +89,7 @@ inline float batteryChargeToLightLimit(float charge) {
 	return 1.0f;
 }
 #endif
+
 #ifndef BATTERY_MONITOR_ON_EMPTY_BATTERY
 #define BATTERY_MONITOR_ON_EMPTY_BATTERY this->onEmptyBattery
 #endif
@@ -94,12 +98,15 @@ inline float batteryChargeToLightLimit(float charge) {
 #ifndef TEMP_MONITOR_INTERVAL_MS
 #define TEMP_MONITOR_INTERVAL_MS 10000
 #endif
+
 #ifndef TEMP_MONITOR_EMITTER_TARGET_TEMPERATURE
 #define TEMP_MONITOR_EMITTER_TARGET_TEMPERATURE 50.0f
 #endif
+
 #ifndef TEMP_MONITOR_LEVEL_ACTIVATION_THRESHOLD
 #define TEMP_MONITOR_LEVEL_ACTIVATION_THRESHOLD 0.1f
 #endif
+
 // Function that maps the emitter's temperature to light level
 // Used to step down the light driver (e.g. led current driver)
 #ifndef TEMP_TO_LIGHT_LIMIT
@@ -110,9 +117,11 @@ inline float batteryChargeToLightLimit(float charge) {
 #ifndef PAR_CHECK_STROBE_PERIOD_MS
 #define PAR_CHECK_STROBE_PERIOD_MS 800UL
 #endif
+
 #ifndef PAR_CHECK_DIGIT_DUTY_CYCLE
 #define PAR_CHECK_DIGIT_DUTY_CYCLE 0.15f
 #endif
+
 #ifndef PAR_CHECK_COMMA_DUTY_CYCLE
 #define PAR_CHECK_COMMA_DUTY_CYCLE 1.0f
 #endif

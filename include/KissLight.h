@@ -1,29 +1,29 @@
-#ifndef GNULIGHT_H
-#define GNULIGHT_H
+#ifndef KISS_LIGHT_H
+#define KISS_LIGHT_H
 
-#include "gnulight_config.h"
+#include "config.h"
 
 #include <Components.h>
-#include <GnulightLightnessDimmer.h>
+#include <KissLightLightnessDimmer.h>
 
-#include "GnulightLightDriver.h"
-#include "ConstantLightMode.h"
-#include "ParameterCheckMode.h"
+#include "KissLightLightDriver.h"
+#include "light-modes/ConstantLightMode.h"
+#include "light-modes/ParameterCheckMode.h"
 #include "OffMode.h"
-#include "StrobeMode.h"
+#include "light-modes/StrobeMode.h"
 #include "BatteryMonitor.h"
 #include "TempMonitor.h"
 
-class Gnulight : public GenericDevice {
+class KissLight : public GenericDevice {
 public:
-	Gnulight(GnulightLightDriver &lightDriver, const char *name = "Gnulight");
+	KissLight(KissLightLightDriver &lightDriver, const char *name = "KissLight");
 	void setState(OnOffState state);
 	OnOffState getState();
 
 	/* Main components */
 	Button button { *this, "  button" };
-	GnulightLightDriver &lightDriver;
-	GnulightLightnessDimmer lightnessDimmer { lightDriver, *this };
+	KissLightLightDriver &lightDriver;
+	KissLightLightnessDimmer lightnessDimmer { lightDriver, *this };
 
 	/* Optional components */
 	BatteryMonitor *pBatteryMonitor = nullptr;
@@ -42,15 +42,15 @@ private:
 	OnOffState powerState = OnOffState::OFF;
 };
 
-#include "Gnulight_cpp.h"
-#include "GnulightLightDriver_cpp.h"
-#include <GnulightLightnessDimmer_cpp.h>
-#include "ConstantLightMode_cpp.h"
-#include "ParameterCheckMode_cpp.h"
+#include "KissLight_cpp.h"
+#include "KissLightLightDriver_cpp.h"
+#include <KissLightLightnessDimmer_cpp.h>
+#include "light-modes/ConstantLightMode_cpp.h"
+#include "light-modes/ParameterCheckMode_cpp.h"
 #include "OffMode_cpp.h"
-#include "StrobeMode_cpp.h"
+#include "light-modes/StrobeMode_cpp.h"
 #include "BatteryMonitor_cpp.h"
 #include "TempMonitor_cpp.h"
-#include "GnulightHelper.h"
+#include "KissLightHelper.h"
 
 #endif

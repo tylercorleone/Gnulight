@@ -1,9 +1,9 @@
 #ifndef LEDCURRENTDRIVER_H
 #define LEDCURRENTDRIVER_H
 
-#include "custom_gnulight.h"
+#include "custom_kisslight.h"
 
-class LedCurrentDriver: public GnulightLightDriver {
+class LedCurrentDriver: public KissLightLightDriver {
 public:
 	LedCurrentDriver();
 	void setup();

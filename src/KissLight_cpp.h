@@ -1,16 +1,16 @@
-#include "Gnulight.h"
+#include "KissLight.h"
 
-inline Gnulight::Gnulight(GnulightLightDriver &lightDriver, const char *name) :
+inline KissLight::KissLight(KissLightLightDriver &lightDriver, const char *name) :
 		GenericDevice(&offMode, name), lightDriver(lightDriver) {
 	lightDriver.maxBrightnessSetter = new GradualCappablePotentiometerActuator(
 			DELAY_BETWEEN_LEVEL_CHANGE, taskManager, lightDriver);
 }
 
-inline void Gnulight::onSetup() {
+inline void KissLight::onSetup() {
 	enterState(offMode);
 }
 
-inline void Gnulight::setState(OnOffState state) {
+inline void KissLight::setState(OnOffState state) {
 	powerState = state;
 
 	if (state == OnOffState::ON) {
@@ -40,14 +40,14 @@ inline void Gnulight::setState(OnOffState state) {
 	}
 }
 
-inline OnOffState Gnulight::getState() {
+inline OnOffState KissLight::getState() {
 	return powerState;
 }
 
-inline void Gnulight::onSwitchOn() {
+inline void KissLight::onSwitchOn() {
 
 }
 
-inline void Gnulight::onSwitchOff() {
+inline void KissLight::onSwitchOff() {
 
 }

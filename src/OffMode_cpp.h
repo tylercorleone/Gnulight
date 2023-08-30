@@ -1,7 +1,7 @@
 #include "OffMode.h"
 
-inline OffMode::OffMode(Gnulight &gnulight) :
-		State(gnulight, " OffMode") {
+inline OffMode::OffMode(KissLight &kissLight) :
+		State(kissLight, " OffMode") {
 }
 
 inline bool OffMode::onEnterState() {
