@@ -127,11 +127,10 @@ inline float batteryChargeToLightLimit(float charge) {
 #endif
 
 /*
- * Total step-up/step-down duration
- * e.g. caused by battery/temperature imposed limit
+ * Duration of the output change caused by battery/temperature limit change
  */
-#ifndef STEP_UP_DOWN_DURATION
-#define STEP_UP_DOWN_DURATION MsToTaskTime(2000)
+#ifndef STEP_UP_DOWN_TRANSITION_DURATION
+#define STEP_UP_DOWN_TRANSITION_DURATION MsToTaskTime(2000)
 #endif
 
 /*
@@ -143,9 +142,11 @@ inline float batteryChargeToLightLimit(float charge) {
 #endif
 
 /* Logging configuration */
-#ifndef LOG_LEVEL
-#define LOG_LEVEL DEBUG_LEVEL
+#ifndef KISS_LIGHT_LOG_LEVEL
+#define KISS_LIGHT_LOG_LEVEL LogLevel::DEBUG
 #endif
+
+#define COMPONENTS_DEFAULT_LOG_LEVEL KISS_LIGHT_LOG_LEVEL
 
 #ifndef LOG_SUBSTRING_BUFFER_SIZE
 #define LOG_SUBSTRING_BUFFER_SIZE 20

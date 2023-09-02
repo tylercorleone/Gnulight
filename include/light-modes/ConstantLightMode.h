@@ -1,5 +1,5 @@
-#ifndef CONSTANTLIGHTMODE_H
-#define CONSTANTLIGHTMODE_H
+#ifndef CONSTANT_LIGHT_MODE_H
+#define CONSTANT_LIGHT_MODE_H
 
 #include "config.h"
 
@@ -7,12 +7,14 @@
 
 class KissLight;
 
-class ConstantLightMode: public State<KissLight, ButtonEvent> {
+class ConstantLightMode : public DeviceAware<KissLight>, public State<ButtonEvent> {
 public:
-	ConstantLightMode(KissLight &kissLight);
+    ConstantLightMode(KissLight &kissLight);
+
 protected:
-	bool onEnterState(const ButtonEvent &event) override;
-	bool handleEvent(const ButtonEvent &event) override;
+    virtual bool onEntering(ButtonEvent *event) override;
+
+    virtual bool onEventHandling(ButtonEvent *event) override;
 };
 
 #endif

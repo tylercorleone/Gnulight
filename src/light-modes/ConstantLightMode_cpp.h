@@ -1,54 +1,48 @@
 #include "light-modes/ConstantLightMode.h"
 
 inline ConstantLightMode::ConstantLightMode(KissLight &kissLight) :
-		State(kissLight, "ConstMode") {
+        DeviceAware(kissLight), State("ConstMode") {
 
 }
 
-inline bool ConstantLightMode::onEnterState(const ButtonEvent &event) {
-	MainLightLevel wantedLevel;
+inline bool ConstantLightMode::onEntering(ButtonEvent *event) {
+    MainLightLevel mainLevel;
 
-	if (event.getClicksCount() > 0) {
-		switch (event.getClicksCount()) {
-		case 1:
-			wantedLevel = MainLightLevel::MAX;
-			break;
-		case 2:
-			wantedLevel = MainLightLevel::MED;
-			break;
-		default:
-			return false;
-		}
-	} else if (event.getHoldStepsCount() > 0) {
-		wantedLevel = MainLightLevel::MIN;
-	} else {
-		return false;
-	}
+    switch (event->getClicksCount()) {
+        case 0:
+            // long press
+            mainLevel = MainLightLevel::MIN;
+            break;
+        case 1:
+            mainLevel = MainLightLevel::MAX;
+            break;
+        case 2:
+            mainLevel = MainLightLevel::MED;
+            break;
+        default:
+            return false;
+    }
 
-	Device().lightnessDimmer.setLevel(0.0);
-	Device().lightnessDimmer.setState(OnOffState::ON);
-	Device().lightnessDimmer.setMainLevel(wantedLevel, MAIN_LEVEL_TRANSITION_DURATION);
+    getDevice().lightnessDimmer.setMainLevel(mainLevel, MAIN_LEVEL_TRANSITION_DURATION);
+    getDevice().lightnessDimmer.setState(OnOffState::ON);
 
-	return true;
+    return true;
 }
 
-inline bool ConstantLightMode::handleEvent(const ButtonEvent &event) {
-	if (event.getClicksCount() > 0) {
-		switch (event.getClicksCount()) {
-		case 1:
-			Device().enterState(Device().offMode);
-			return true;
-		case 2:
-			Device().lightnessDimmer.setNextSubLevel(MAIN_LEVEL_TRANSITION_DURATION);
-			return true;
-		default:
-			return false;
-		}
-	} else if (event.getHoldStepsCount() > 0) {
-		Device().lightnessDimmer.setNextMainLevel(MAIN_LEVEL_TRANSITION_DURATION);
-		return true;
-	} else {
-		return false;
-	}
+inline bool ConstantLightMode::onEventHandling(ButtonEvent *event) {
+    switch (event->getClicksCount()) {
+        case 0:
+            // long press
+            getDevice().lightnessDimmer.setNextMainLevel(MAIN_LEVEL_TRANSITION_DURATION);
+            return true;
+        case 1:
+            getDevice().enterState(getDevice().offMode);
+            return true;
+        case 2:
+            getDevice().lightnessDimmer.setNextSubLevel(MAIN_LEVEL_TRANSITION_DURATION);
+            return true;
+        default:
+            return false;
+    }
 }
 

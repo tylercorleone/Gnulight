@@ -1,5 +1,5 @@
-#ifndef STROBEMODE_H
-#define STROBEMODE_H
+#ifndef STROBE_MODE_H
+#define STROBE_MODE_H
 
 #include "config.h"
 
@@ -9,21 +9,27 @@ class KissLight;
 
 #define SIGNAL_TYPES_COUNT 3
 
-class StrobeMode: public State<KissLight, ButtonEvent> {
+class StrobeMode : public DeviceAware<KissLight>, public State<ButtonEvent> {
 public:
-	StrobeMode(KissLight &kissLight);
+    StrobeMode(KissLight &kissLight);
+
 protected:
-	bool onEnterState(const ButtonEvent &event) override;
-	void onExitState() override;
-	bool handleEvent(const ButtonEvent &event) override;
-	void startStrobe();
-	const SignalType signalTypes[SIGNAL_TYPES_COUNT] = {
-			SignalType::SINUSOIDAL_WAVE, SignalType::TRIANGULAR_WAVE,
-			SignalType::SQUARE_WAVE };
-	SignalGenerator *signalGenerator;
-	float levelMax = 0.0f;
-	uint8_t strobeIndex = 0;
-	uint16_t periodMultiplierX1000 = 1000UL;
+    bool onEntering(ButtonEvent *event) override;
+
+    bool onExiting(ButtonEvent *event) override;
+
+    bool onEventHandling(ButtonEvent *event) override;
+
+    void setupStrobe();
+
+    const SignalType signalTypes[SIGNAL_TYPES_COUNT] = {
+            SignalType::SINUSOIDAL_WAVE,
+            SignalType::TRIANGULAR_WAVE,
+            SignalType::SQUARE_WAVE};
+    SignalGenerator *signalGenerator;
+    float levelMax = 0.0f;
+    uint8_t strobeIndex = 0;
+    uint16_t periodMultiplierX1000 = 1000UL;
 };
 
 #endif
