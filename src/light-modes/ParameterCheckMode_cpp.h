@@ -2,9 +2,8 @@
 
 inline ParameterCheckMode::ParameterCheckMode(KissLight &kissLight) :
         DeviceAware(kissLight),
-        State("ParChkMode"),
-        Task(0) {
-}
+        State("ParChkMode", KISS_LIGHT_LOG_LEVEL),
+        Task(0) {}
 
 inline bool ParameterCheckMode::onEntering(ButtonEvent *event) {
     float parameterValue;

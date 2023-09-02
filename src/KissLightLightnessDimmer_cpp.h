@@ -1,17 +1,17 @@
 #include "KissLightLightnessDimmer.h"
 
-inline KissLightLightnessDimmer::KissLightLightnessDimmer(Potentiometer &lightDriver,
-                                                          KissLight &kissLight) :
-        LightnessDimmer(lightDriver, "lightnessDimmer"),
+inline KissLightLightnessDimmer::KissLightLightnessDimmer(KissLight &kissLight) :
+        LightnessDimmer(kissLight.lightDriver, "lightnessDimmer", KISS_LIGHT_LOG_LEVEL),
         DeviceAware(kissLight) {
     gradualLevelSetter = new GradualPotentiometerActuator(DELAY_BETWEEN_LEVEL_CHANGE,
                                                           getDevice().getTaskManager(),
                                                           *this,
-                                                          "lightnessDimmer");
+                                                          "lightnessActuator",
+                                                          KISS_LIGHT_LOG_LEVEL);
 }
 
 inline void KissLightLightnessDimmer::setLevel(float level, uint32_t duration) {
-    gradualLevelSetter->setLevel(level, duration); // will set the level on this instance lazily
+    gradualLevelSetter->setLevelGradually(level, duration); // will set the level on this instance itself, gradually
 }
 
 inline MainLightLevel KissLightLightnessDimmer::getCurrentMainLevel() {
@@ -20,11 +20,12 @@ inline MainLightLevel KissLightLightnessDimmer::getCurrentMainLevel() {
 
 #define MAIN_LEVEL mainLevels[currentMainLevelIndex][currentSubLevelsIndexes[currentMainLevelIndex]]
 
-inline float KissLightLightnessDimmer::setMainLevel(MainLightLevel levelIndex,
-                                                    uint32_t duration) {
-    currentMainLevelIndex = levelIndex;
-    setLevel(MAIN_LEVEL, duration);
-    return MAIN_LEVEL;
+inline float KissLightLightnessDimmer::setMainLevel(MainLightLevel level, uint32_t duration) {
+    currentMainLevelIndex = level;
+    float mainLevel = MAIN_LEVEL;
+    logger.info("setting main level %i (%f)", level, mainLevel);
+    setLevel(mainLevel, duration);
+    return mainLevel;
 }
 
 #undef MAIN_LEVEL

@@ -2,8 +2,8 @@
 #include "KissLight.h"
 
 inline OffMode::OffMode(KissLight &kissLight) :
-        DeviceAware(kissLight), State("OffMode") {
-}
+        DeviceAware(kissLight),
+        State("OffMode", KISS_LIGHT_LOG_LEVEL) {}
 
 inline bool OffMode::onEntering(ButtonEvent *event) {
     getDevice().switchTo(OnOffState::OFF);

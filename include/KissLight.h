@@ -16,7 +16,7 @@
 
 class KissLight : public Device<ButtonEvent> {
 public:
-    KissLight(LightDriver &lightDriver, const char *name = "KissLight");
+    KissLight(LightDriver &lightDriver);
 
     void switchTo(OnOffState state);
 
@@ -25,7 +25,7 @@ public:
     /* Main components */
     Button button{*this, "button"};
     LightDriver &lightDriver;
-    KissLightLightnessDimmer lightnessDimmer{lightDriver, *this};
+    KissLightLightnessDimmer lightnessDimmer{*this};
 
     /* Optional components */
     BatteryMonitor *pBatteryMonitor = nullptr;

@@ -17,7 +17,8 @@ void setup() {
 #endif
 
     kissLight.lightDriver.logger.setLogLevel(LogLevel::TRACE);
-    kissLight.lightnessDimmer.updateLevelMinValue(
+    kissLight.lightnessDimmer.logger.setLogLevel(LogLevel::TRACE);
+    kissLight.lightnessDimmer.setMinValue(
             0.1f); // TODO: calculate actual lightness that result in 1% to ws2812fx
 
     ws2812fx.init();

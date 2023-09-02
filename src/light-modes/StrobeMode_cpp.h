@@ -2,7 +2,7 @@
 
 inline StrobeMode::StrobeMode(KissLight &kissLight) :
         DeviceAware(kissLight),
-        State("StrobeMode") {
+        State("StrobeMode", KISS_LIGHT_LOG_LEVEL) {
     signalGenerator = new SignalGenerator(kissLight.getTaskManager(),
                                           kissLight.lightnessDimmer,
                                           MsToTaskTime(STROBE_LEVEL_REFRESH_INTERVAL_MS));
@@ -31,7 +31,7 @@ inline bool StrobeMode::onEventHandling(ButtonEvent *event) {
             levelMax = getDevice().lightnessDimmer.setNextMainLevel();
             break;
         case 1:
-            getDevice().enterState(getDevice().offMode, event);
+            getDevice().enterState(getDevice().offMode);
             return true;
         case 2:
             strobeIndex = (strobeIndex + 1) % SIGNAL_TYPES_COUNT;

@@ -1,9 +1,7 @@
 #include "light-modes/ConstantLightMode.h"
 
 inline ConstantLightMode::ConstantLightMode(KissLight &kissLight) :
-        DeviceAware(kissLight), State("ConstMode") {
-
-}
+        DeviceAware(kissLight), State("ConstMode", KISS_LIGHT_LOG_LEVEL) {}
 
 inline bool ConstantLightMode::onEntering(ButtonEvent *event) {
     MainLightLevel mainLevel;
@@ -25,7 +23,6 @@ inline bool ConstantLightMode::onEntering(ButtonEvent *event) {
 
     getDevice().lightnessDimmer.setMainLevel(mainLevel, MAIN_LEVEL_TRANSITION_DURATION);
     getDevice().lightnessDimmer.setState(OnOffState::ON);
-
     return true;
 }
 

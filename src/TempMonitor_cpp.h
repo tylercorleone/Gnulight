@@ -3,8 +3,10 @@
 
 inline TempMonitor::TempMonitor(KissLight &kissLight,
                                 float (*temperatureReadFunction)() = nullptr) :
-        Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)), DeviceAware(kissLight), Component(
-        " tempMon"), readTemperature(temperatureReadFunction) {
+        Task(MsToTaskTime(TEMP_MONITOR_INTERVAL_MS)),
+        DeviceAware(kissLight),
+        Component("tempMonitor", KISS_LIGHT_LOG_LEVEL),
+        readTemperature(temperatureReadFunction) {
 }
 
 inline bool TempMonitor::OnStart() {

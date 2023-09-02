@@ -10,10 +10,9 @@ class LightDriver : public CappablePotentiometer {
     friend class KissLight;
 
 public:
-    LightDriver(const char *name = "lightDriver") :
-            CappablePotentiometer(name) {}
+    LightDriver();
 
-    void updateLevelMaxValue();
+    void setMaxValue();
 
     void setBatteryCausedLimit(float limit);
 

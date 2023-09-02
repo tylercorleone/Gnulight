@@ -17,7 +17,7 @@ class KissLight;
 
 class KissLightLightnessDimmer : public LightnessDimmer, public DeviceAware<KissLight> {
 public:
-    KissLightLightnessDimmer(Potentiometer &lightDriver, KissLight &kissLight);
+    KissLightLightnessDimmer(KissLight &kissLight);
 
     using LightnessDimmer::setLevel;
 
