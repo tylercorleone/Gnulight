@@ -22,7 +22,7 @@ private:
     float battCausedLimit = 1.0f;
     float tempCausedLimit = 1.0f;
     // gets initialized in KissLight constructor
-    GradualCappablePotentiometerActuator *maxBrightnessActuator;
+    GradualCappablePotentiometerActuator *maxBrightnessActuator = nullptr;
 };
 
 #endif

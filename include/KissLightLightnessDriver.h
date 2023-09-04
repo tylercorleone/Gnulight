@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 #define MAIN_LEVELS_COUNT 3
-#define SUBLEVELS_COUNT 2
+#define SUB_LEVELS_COUNT 2
 
 enum MainLightLevel {
     MIN, MED, MAX
@@ -15,11 +15,11 @@ enum MainLightLevel {
 
 class KissLight;
 
-class KissLightLightnessDimmer : public LightnessDimmer, public DeviceAware<KissLight> {
+class KissLightLightnessDriver : public LightnessDriver {
 public:
-    KissLightLightnessDimmer(KissLight &kissLight);
+    KissLightLightnessDriver(Potentiometer &lightDriver, TaskManager &taskManager);
 
-    using LightnessDimmer::setLevel;
+    using LightnessDriver::setLevel;
 
     void setLevel(float level, uint32_t duration);
 
@@ -31,14 +31,16 @@ public:
 
     float setNextSubLevel(uint32_t duration = 0);
 
+    static float toNormalizedLevel(MainLightLevel);
+
 protected:
     MainLightLevel mainLightLevels[MAIN_LEVELS_COUNT] = {MainLightLevel::MIN,
                                                          MainLightLevel::MED,
                                                          MainLightLevel::MAX};
     int currentMainLevelIndex = 2;
-    GradualPotentiometerActuator *gradualLevelSetter;
+    GradualPotentiometerActuator gradualLevelSetter;
     uint8_t currentSubLevelsIndexes[MAIN_LEVELS_COUNT] = {0, 0, 0};
-    const float mainLevels[MAIN_LEVELS_COUNT][SUBLEVELS_COUNT] = {
+    const float mainLevels[MAIN_LEVELS_COUNT][SUB_LEVELS_COUNT] = {
             {LEVEL_LOW_1,  LEVEL_LOW_2},
             {LEVEL_MED_1,  LEVEL_MED_2},
             {LEVEL_HIGH_1, LEVEL_HIGH_2}

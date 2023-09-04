@@ -15,7 +15,7 @@ protected:
 	void onSwitchOff() override;
 	void onIdle();
 	LedCurrentDriver ledCurrentDriver;
-	LithiumBattery battery { 2.8, 3.2, 4.17, 0.053, readBatteryVoltage };
+	LithiumBattery battery { readBatteryVoltage, 2.8, 3.2, 4.17, 0.053 };
 };
 
 #endif

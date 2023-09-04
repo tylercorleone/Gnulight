@@ -1,5 +1,3 @@
-#define LOG_LEVEL TRACE_LEVEL
-
 #define LEVEL_LOW_1 0.33 // In order to make it visible
 #define LEVEL_MED_1 0.66
 #define LEVEL_HIGH_1 1.0
@@ -12,7 +10,7 @@ BuiltinLedDriver ledDriver;
 KissLight kissLight{ledDriver};
 
 void setup() {
-#ifdef LOG_ENABLED
+#ifdef SIMPLE_LOGGER_APPENDER_ENABLED
     Serial.begin(9600);
 #endif
 

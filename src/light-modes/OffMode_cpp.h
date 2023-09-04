@@ -35,8 +35,8 @@ inline bool OffMode::onEventHandling(ButtonEvent *event) {
                                    &getDevice().parameterCheckMode.LAMP_TEMPERATURE_CHECK_MSG);
             return true;
         case 6:
-            getDevice().lightnessDimmer.isLightnessSimulationEnabled(
-                    !getDevice().lightnessDimmer.isLightnessSimulationEnabled());
+            getDevice().lightnessDriver.isLightnessSimulationEnabled(
+                    !getDevice().lightnessDriver.isLightnessSimulationEnabled());
             return true;
         default:
             return false;

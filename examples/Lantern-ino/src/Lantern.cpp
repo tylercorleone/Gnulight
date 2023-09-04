@@ -32,7 +32,7 @@ void Lantern::onIdle() {
 		LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
 	} else {
 
-#ifdef LOG_ENABLED
+#ifdef SIMPLE_LOGGER_APPENDER_ENABLED
 		LowPower.idle(SLEEP_FOREVER, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_ON,
 				SPI_OFF, USART0_ON, TWI_OFF);
 #else

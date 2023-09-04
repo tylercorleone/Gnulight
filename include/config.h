@@ -9,7 +9,7 @@
  ************************************************************
  */
 
-/* KissLightLightnessDimmer configuration - some consideration about lightness and light intensity */
+/* KissLightLightnessDriver configuration plus some consideration about lightness and light intensity */
 #ifndef LEVEL_LOW_1
 #define LEVEL_LOW_1 0.01f // moonlight mode. Some configurations could have some issues with such a small values. In these cases use a higher value.
 #endif

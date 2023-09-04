@@ -4,15 +4,15 @@
 #include "config.h"
 
 #include <Components.h>
-#include <KissLightLightnessDimmer.h>
 
 #include "LightDriver.h"
+#include "KissLightLightnessDriver.h"
+#include "BatteryMonitor.h"
+#include "TempMonitor.h"
 #include "light-modes/ConstantLightMode.h"
 #include "light-modes/ParameterCheckMode.h"
 #include "light-modes/OffMode.h"
 #include "light-modes/StrobeMode.h"
-#include "BatteryMonitor.h"
-#include "TempMonitor.h"
 
 class KissLight : public Device<ButtonEvent> {
 public:
@@ -25,7 +25,7 @@ public:
     /* Main components */
     Button button{*this, "button"};
     LightDriver &lightDriver;
-    KissLightLightnessDimmer lightnessDimmer{*this};
+    KissLightLightnessDriver lightnessDriver{lightDriver, taskManager};
 
     /* Optional components */
     BatteryMonitor *pBatteryMonitor = nullptr;
@@ -47,7 +47,7 @@ private:
 
 #include "KissLight_cpp.h"
 #include "LightDriver_cpp.h"
-#include <KissLightLightnessDimmer_cpp.h>
+#include "KissLightLightnessDriver_cpp.h"
 #include "light-modes/ConstantLightMode_cpp.h"
 #include "light-modes/ParameterCheckMode_cpp.h"
 #include "light-modes/OffMode_cpp.h"

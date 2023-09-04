@@ -11,7 +11,7 @@ inline KissLight::KissLight(LightDriver &lightDriver) :
 }
 
 inline void KissLight::switchTo(OnOffState state) {
-    logger.debug("switching %s", state == OnOffState::ON ? "ON" : "OFF");
+    logger.info("switching %s", state == OnOffState::ON ? "ON" : "OFF");
 
     currentPowerState = state;
 
@@ -35,7 +35,7 @@ inline void KissLight::switchTo(OnOffState state) {
             taskManager.StopTask(pTempMonitor);
         }
 
-        lightnessDimmer.setState(OnOffState::OFF);
+        lightnessDriver.setState(OnOffState::OFF);
 
         onSwitchOff();
     }

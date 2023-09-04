@@ -7,7 +7,7 @@ Lantern lantern;
 
 void setup() {
 
-#ifdef LOG_ENABLED
+#ifdef SIMPLE_LOGGER_APPENDER_ENABLED
 	Serial.begin(9600);
 #else
 	power_usart0_disable(); // 0.1 mA saved

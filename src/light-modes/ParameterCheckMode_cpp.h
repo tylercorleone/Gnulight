@@ -42,8 +42,8 @@ inline bool ParameterCheckMode::onEntering(ButtonEvent *event) {
     // the decimal part
     strobesForDecimalPartCount = ((int8_t) (parameterValue * 10)) % 10;
 
-    getDevice().lightnessDimmer.setState(OnOffState::OFF); // light could be ON!
-    getDevice().lightnessDimmer.setMainLevel(MainLightLevel::MED);
+    getDevice().lightnessDriver.setState(OnOffState::OFF); // light could be ON!
+    getDevice().lightnessDriver.setMainLevel(MainLightLevel::MED);
     getDevice().getTaskManager().StartTask(this);
     setRemainingTime(0);
     return true;
@@ -65,7 +65,7 @@ inline void ParameterCheckMode::OnUpdate(uint32_t deltaTime) {
         return;
     }
 
-    getDevice().lightnessDimmer.toggleState();
+    getDevice().lightnessDriver.toggleState();
 
     int8_t *pCounterToDecrement;
     float intervalMultiplier;
@@ -78,8 +78,7 @@ inline void ParameterCheckMode::OnUpdate(uint32_t deltaTime) {
         pCounterToDecrement = &strobesForIntegerPartCount;
 
         if (strobesForIntegerPartCount == 0
-            && getDevice().lightnessDimmer.getState()
-               == OnOffState::ON) {
+            && getDevice().lightnessDriver.getState() == OnOffState::ON) {
             intervalMultiplier = PAR_CHECK_COMMA_DUTY_CYCLE;
         } else {
             intervalMultiplier = PAR_CHECK_DIGIT_DUTY_CYCLE;
@@ -94,7 +93,7 @@ inline void ParameterCheckMode::OnUpdate(uint32_t deltaTime) {
         intervalMultiplier = PAR_CHECK_DIGIT_DUTY_CYCLE;
     }
 
-    if (getDevice().lightnessDimmer.getState() == OnOffState::OFF) {
+    if (getDevice().lightnessDriver.getState() == OnOffState::OFF) {
         --*pCounterToDecrement;
         intervalMultiplier = 1.0f - intervalMultiplier;
     }

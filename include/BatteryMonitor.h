@@ -10,18 +10,23 @@
 
 class KissLight;
 
-class BatteryMonitor: public Task,
-		public DeviceAware<KissLight>,
-		public Component {
+class BatteryMonitor : public Task,
+                       public DeviceAware<KissLight>,
+                       public Component {
 public:
-	BatteryMonitor(KissLight &kissLight, Battery &battery);
-	const Battery &battery;
+    BatteryMonitor(KissLight &kissLight, Battery &battery);
+
+    const Battery &battery;
 private:
-	bool OnStart() override;
-	void OnStop() override;
-	void OnUpdate(uint32_t deltaTime) override;
-	virtual void onEmptyBattery();
-	float remainingChargeCausingStepdown = 1.0f;
+    bool OnStart() override;
+
+    void OnStop() override;
+
+    void OnUpdate(uint32_t deltaTime) override;
+
+    virtual void onEmptyBattery();
+
+    float remainingChargeCausingStepdown = 1.0f;
 };
 
 #endif
