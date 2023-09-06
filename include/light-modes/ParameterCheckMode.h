@@ -1,9 +1,7 @@
 #ifndef PARAMETER_CHECK_MODE_H
 #define PARAMETER_CHECK_MODE_H
 
-#include "config.h"
-
-#include "Components.h"
+#include <Components.h>
 
 class KissLight;
 
@@ -12,7 +10,7 @@ public:
     static ButtonEvent BATTERY_CHECK_MSG;
     static ButtonEvent LAMP_TEMPERATURE_CHECK_MSG;
 
-    ParameterCheckMode(KissLight &kissLight);
+    explicit ParameterCheckMode(KissLight &kissLight);
 
 protected:
     bool onEntering(ButtonEvent *event) override;
@@ -24,8 +22,5 @@ protected:
     int8_t strobesForIntegerPartCount = 0;
     int8_t strobesForDecimalPartCount = 0;
 };
-
-ButtonEvent ParameterCheckMode::BATTERY_CHECK_MSG = ButtonEvent(0, 0);
-ButtonEvent ParameterCheckMode::LAMP_TEMPERATURE_CHECK_MSG = ButtonEvent(1, 0);
 
 #endif

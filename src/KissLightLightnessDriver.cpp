@@ -1,16 +1,8 @@
 #include "KissLightLightnessDriver.h"
 
-inline KissLightLightnessDriver::KissLightLightnessDriver(Potentiometer &lightDriver, TaskManager &taskManager) :
-        LightnessDriver(lightDriver, "lightnessDriver", KISS_LIGHT_LOG_LEVEL),
-        gradualLevelSetter(GradualPotentiometerActuator(DELAY_BETWEEN_LEVEL_CHANGE,
-                                                        taskManager,
-                                                        *this,
-                                                        Component::getIdentifier(),
-                                                        logger.getLogLevel())) {}
-
-inline void KissLightLightnessDriver::setLevel(float level, uint32_t duration) {
-    gradualLevelSetter.setLevelGradually(level, duration); // will set the level on this instance itself, gradually
-}
+inline KissLightLightnessDriver::KissLightLightnessDriver(LightDriver &lightDriver, TaskManager &taskManager) :
+        LightnessDriver(DELAY_BETWEEN_LEVEL_CHANGE_MS, taskManager, lightDriver, "lightnessDriver",
+                        KISS_LIGHT_DEFAULT_APPENDER_LEVEL) {}
 
 inline MainLightLevel KissLightLightnessDriver::getCurrentMainLevel() {
     return mainLightLevels[currentMainLevelIndex];
@@ -22,7 +14,7 @@ inline float KissLightLightnessDriver::setMainLevel(MainLightLevel level, uint32
     currentMainLevelIndex = level;
     float mainLevel = MAIN_LEVEL;
     logger.info("setting main level %i (%f)", level, mainLevel);
-    setLevel(mainLevel, duration);
+    setLevelGradually(mainLevel, duration);
     return mainLevel;
 }
 

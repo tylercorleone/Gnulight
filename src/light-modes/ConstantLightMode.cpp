@@ -1,9 +1,10 @@
 #include "light-modes/ConstantLightMode.h"
+#include "KissLight.h"
 
-inline ConstantLightMode::ConstantLightMode(KissLight &kissLight) :
-        DeviceAware(kissLight), State("ConstMode", KISS_LIGHT_LOG_LEVEL) {}
+ConstantLightMode::ConstantLightMode(KissLight &kissLight) :
+        DeviceAware(kissLight), State("ConstMode", KISS_LIGHT_DEFAULT_APPENDER_LEVEL) {}
 
-inline bool ConstantLightMode::onEntering(ButtonEvent *event) {
+bool ConstantLightMode::onEntering(ButtonEvent *event) {
     MainLightLevel mainLevel;
 
     switch (event->getClicksCount()) {
@@ -26,7 +27,7 @@ inline bool ConstantLightMode::onEntering(ButtonEvent *event) {
     return true;
 }
 
-inline bool ConstantLightMode::onEventHandling(ButtonEvent *event) {
+bool ConstantLightMode::onEventHandling(ButtonEvent *event) {
     switch (event->getClicksCount()) {
         case 0:
             // long press

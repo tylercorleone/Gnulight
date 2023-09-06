@@ -7,7 +7,7 @@ class KissLight;
 
 class OffMode : public DeviceAware<KissLight>, public State<ButtonEvent> {
 public:
-    OffMode(KissLight &kissLight);
+    explicit OffMode(KissLight &kissLight);
 
 protected:
     bool onEntering(ButtonEvent *event) override;

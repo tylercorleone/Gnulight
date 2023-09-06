@@ -1,28 +1,21 @@
-#ifndef KISS_LIGHT_LIGHT_DRIVER_H
-#define KISS_LIGHT_LIGHT_DRIVER_H
-
-#include "config.h"
+#ifndef LIGHT_DRIVER_H
+#define LIGHT_DRIVER_H
 
 #include <Components.h>
-#include <stdint.h>
 
-class LightDriver : public CappablePotentiometer {
+class LightDriver : public TimedPotentiometer {
     friend class KissLight;
 
 public:
-    LightDriver();
+    explicit LightDriver(TaskManager &taskManager);
 
-    void setMaxValue();
+    void setBatteryCausedMaxValue(float limit);
 
-    void setBatteryCausedLimit(float limit);
-
-    void setTemperatureCausedLimit(float limit);
+    void setTemperatureCausedMaxValue(float limit);
 
 private:
-    float battCausedLimit = 1.0f;
-    float tempCausedLimit = 1.0f;
-    // gets initialized in KissLight constructor
-    GradualCappablePotentiometerActuator *maxBrightnessActuator = nullptr;
+    float batteryCausedMaxValue = 1.0f;
+    float temperatureCausedMaxValue = 1.0f;
 };
 
 #endif

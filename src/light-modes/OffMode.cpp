@@ -1,21 +1,21 @@
 #include "light-modes/OffMode.h"
 #include "KissLight.h"
 
-inline OffMode::OffMode(KissLight &kissLight) :
+OffMode::OffMode(KissLight &kissLight) :
         DeviceAware(kissLight),
-        State("OffMode", KISS_LIGHT_LOG_LEVEL) {}
+        State("OffMode", KISS_LIGHT_DEFAULT_APPENDER_LEVEL) {}
 
-inline bool OffMode::onEntering(ButtonEvent *event) {
+bool OffMode::onEntering(ButtonEvent *event) {
     getDevice().switchTo(OnOffState::OFF);
     return true;
 }
 
-inline bool OffMode::onExiting(ButtonEvent *event) {
+bool OffMode::onExiting(ButtonEvent *event) {
     getDevice().switchTo(OnOffState::ON);
     return true;
 }
 
-inline bool OffMode::onEventHandling(ButtonEvent *event) {
+bool OffMode::onEventHandling(ButtonEvent *event) {
 
     switch (event->getClicksCount()) {
         case 0: // long press
@@ -27,12 +27,10 @@ inline bool OffMode::onEventHandling(ButtonEvent *event) {
             getDevice().enterState(getDevice().strobeMode, event);
             return true;
         case 4:
-            getDevice().enterState(getDevice().parameterCheckMode,
-                                   &getDevice().parameterCheckMode.BATTERY_CHECK_MSG);
+            getDevice().enterState(getDevice().parameterCheckMode, &ParameterCheckMode::BATTERY_CHECK_MSG);
             return true;
         case 5:
-            getDevice().enterState(getDevice().parameterCheckMode,
-                                   &getDevice().parameterCheckMode.LAMP_TEMPERATURE_CHECK_MSG);
+            getDevice().enterState(getDevice().parameterCheckMode, &ParameterCheckMode::LAMP_TEMPERATURE_CHECK_MSG);
             return true;
         case 6:
             getDevice().lightnessDriver.isLightnessSimulationEnabled(

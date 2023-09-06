@@ -1,9 +1,11 @@
 #include "BatteryMonitor.h"
+#include "KissLight.h"
+#include <commons/components_utilities.h>
 
 inline BatteryMonitor::BatteryMonitor(KissLight &kissLight, Battery &battery) :
         Task(BATTERY_MONITOR_INTERVAL_MS),
         DeviceAware(kissLight),
-        Component("batteryMonitor", KISS_LIGHT_LOG_LEVEL),
+        Component("batteryMonitor", KISS_LIGHT_DEFAULT_APPENDER_LEVEL),
         battery(battery) {}
 
 inline bool BatteryMonitor::OnStart() {
@@ -13,13 +15,13 @@ inline bool BatteryMonitor::OnStart() {
 }
 
 inline void BatteryMonitor::OnStop() {
-    getDevice().lightDriver.setBatteryCausedLimit(1.0f);
+    getDevice().lightDriver.setBatteryCausedMaxValue(1.0f);
 }
 
 inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
     float remainingCharge = battery.getRemainingCharge();
 
-    logger.debug("batt. %d%%", _round(remainingCharge * 100.0f));
+    logger.debug("batt: %d%%", components_round(remainingCharge * 100.0f));
 
     if (remainingCharge > remainingChargeCausingStepdown
         && remainingCharge
@@ -35,7 +37,7 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
     float batteryCausedLimit = BATTERY_CHARGE_TO_LIGHT_LIMIT(
             remainingChargeCausingStepdown = remainingCharge);
 
-    getDevice().lightDriver.setBatteryCausedLimit(batteryCausedLimit);
+    getDevice().lightDriver.setBatteryCausedMaxValue(batteryCausedLimit);
 
     if (batteryCausedLimit == 0.0) {
         BATTERY_MONITOR_ON_EMPTY_BATTERY();
@@ -43,6 +45,6 @@ inline void BatteryMonitor::OnUpdate(uint32_t deltaTime) {
 }
 
 inline void BatteryMonitor::onEmptyBattery() {
-    logger.warn("empty batt!");
+    logger.warn("empty battery!");
     getDevice().enterState(getDevice().offMode);
 }

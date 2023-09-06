@@ -1,8 +1,9 @@
 #include "light-modes/StrobeMode.h"
+#include "KissLight.h"
 
 inline StrobeMode::StrobeMode(KissLight &kissLight) :
         DeviceAware(kissLight),
-        State("StrobeMode", KISS_LIGHT_LOG_LEVEL),
+        State("StrobeMode", KISS_LIGHT_DEFAULT_APPENDER_LEVEL),
         signalGenerator(SignalGenerator(kissLight.getTaskManager(),
                                         kissLight.lightnessDriver,
                                         MsToTaskTime(STROBE_LEVEL_REFRESH_INTERVAL_MS),
@@ -57,17 +58,17 @@ inline bool StrobeMode::onEventHandling(ButtonEvent *event) {
 }
 
 inline void StrobeMode::setupStrobe() {
-    float maxLevel = _max(LEVEL_LOW_2, levelMax);
+    float maxLevel = components_max(LEVEL_LOW_2, levelMax);
 
     switch (signalTypes[signalTypeIndex]) {
         case SignalType::TRIANGULAR_WAVE:
             signalGenerator.triangularWave(LEVEL_LOW_1, maxLevel, THE_PERIOD);
             break;
         case SignalType::SINUSOIDAL_WAVE:
-            signalGenerator.triangularWave(LEVEL_LOW_1, maxLevel, THE_PERIOD);
+            signalGenerator.sinusoidalWave(LEVEL_LOW_1, maxLevel, THE_PERIOD);
             break;
         default:
-            signalGenerator.triangularWave(LEVEL_LOW_1, maxLevel, THE_PERIOD);
+            signalGenerator.squareWave(LEVEL_LOW_1, maxLevel, THE_PERIOD);
     }
 }
 

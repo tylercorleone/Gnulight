@@ -3,16 +3,16 @@
   "version": "0.2",
   "keywords": "arduino, avr, light, lantern, lamp",
   "description": "A base start for a modern DIY light",
-  "repository":
-  {
+  "frameworks": "arduino",
+  "platforms": "*",
+  "repository": {
     "type": "git",
     "url": "https://github.com/tylercorleone/kisslight.git"
   },
-  "dependencies":
-  [
+  "dependencies": [
     {
-        "name": "Components",
-        "version": "https://github.com/tylercorleone/Components.git"
+      "name": "Components",
+      "version": "symlink:///Users/lupop/Documents/private/repositories/Components"
     }
   ]
 }

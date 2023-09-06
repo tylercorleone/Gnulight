@@ -1,8 +1,6 @@
 #ifndef KISS_LIGHT_H
 #define KISS_LIGHT_H
 
-#include "config.h"
-
 #include <Components.h>
 
 #include "LightDriver.h"
@@ -13,10 +11,11 @@
 #include "light-modes/ParameterCheckMode.h"
 #include "light-modes/OffMode.h"
 #include "light-modes/StrobeMode.h"
+#include "KissLightHelper.h"
 
 class KissLight : public Device<ButtonEvent> {
 public:
-    KissLight(LightDriver &lightDriver);
+    explicit KissLight(LightDriver &lightDriver);
 
     void switchTo(OnOffState state);
 
@@ -44,16 +43,5 @@ protected:
 private:
     OnOffState currentPowerState = OnOffState::OFF;
 };
-
-#include "KissLight_cpp.h"
-#include "LightDriver_cpp.h"
-#include "KissLightLightnessDriver_cpp.h"
-#include "light-modes/ConstantLightMode_cpp.h"
-#include "light-modes/ParameterCheckMode_cpp.h"
-#include "light-modes/OffMode_cpp.h"
-#include "light-modes/StrobeMode_cpp.h"
-#include "BatteryMonitor_cpp.h"
-#include "TempMonitor_cpp.h"
-#include "KissLightHelper.h"
 
 #endif

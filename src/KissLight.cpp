@@ -1,14 +1,8 @@
 #include "KissLight.h"
 
 inline KissLight::KissLight(LightDriver &lightDriver) :
-        Device(offMode, "KissLight", KISS_LIGHT_LOG_LEVEL),
-        lightDriver(lightDriver) {
-
-    lightDriver.maxBrightnessActuator = new GradualCappablePotentiometerActuator(
-            DELAY_BETWEEN_LEVEL_CHANGE, taskManager, lightDriver,
-            "maxLightSetter", KISS_LIGHT_LOG_LEVEL
-    );
-}
+        Device(offMode, "KissLight", KISS_LIGHT_DEFAULT_APPENDER_LEVEL),
+        lightDriver(lightDriver) {}
 
 inline void KissLight::switchTo(OnOffState state) {
     logger.info("switching %s", state == OnOffState::ON ? "ON" : "OFF");

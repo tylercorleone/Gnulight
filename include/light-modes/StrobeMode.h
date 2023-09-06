@@ -1,8 +1,6 @@
 #ifndef STROBE_MODE_H
 #define STROBE_MODE_H
 
-#include "config.h"
-
 #include "Components.h"
 
 class KissLight;
@@ -11,7 +9,7 @@ class KissLight;
 
 class StrobeMode : public DeviceAware<KissLight>, public State<ButtonEvent> {
 public:
-    StrobeMode(KissLight &kissLight);
+    explicit StrobeMode(KissLight &kissLight);
 
 protected:
     bool onEntering(ButtonEvent *event) override;

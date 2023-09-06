@@ -1,10 +1,10 @@
 #ifndef KISS_LIGHT_LIGHTNESS_DIMMER_H
 #define KISS_LIGHT_LIGHTNESS_DIMMER_H
 
-#include "config.h"
+#include "kiss-light-config.h"
 
 #include <Components.h>
-#include <stdint.h>
+#include "LightDriver.h"
 
 #define MAIN_LEVELS_COUNT 3
 #define SUB_LEVELS_COUNT 2
@@ -17,11 +17,7 @@ class KissLight;
 
 class KissLightLightnessDriver : public LightnessDriver {
 public:
-    KissLightLightnessDriver(Potentiometer &lightDriver, TaskManager &taskManager);
-
-    using LightnessDriver::setLevel;
-
-    void setLevel(float level, uint32_t duration);
+    KissLightLightnessDriver(LightDriver &lightDriver, TaskManager &taskManager);
 
     MainLightLevel getCurrentMainLevel();
 
@@ -38,7 +34,6 @@ protected:
                                                          MainLightLevel::MED,
                                                          MainLightLevel::MAX};
     int currentMainLevelIndex = 2;
-    GradualPotentiometerActuator gradualLevelSetter;
     uint8_t currentSubLevelsIndexes[MAIN_LEVELS_COUNT] = {0, 0, 0};
     const float mainLevels[MAIN_LEVELS_COUNT][SUB_LEVELS_COUNT] = {
             {LEVEL_LOW_1,  LEVEL_LOW_2},

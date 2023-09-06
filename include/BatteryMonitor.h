@@ -1,12 +1,10 @@
-#ifndef BATTERYMONITOR_H
-#define BATTERYMONITOR_H
+#ifndef BATTERY_MONITOR_H
+#define BATTERY_MONITOR_H
 
-#include "config.h"
-
-#include <Components.h>
-#include <stdint.h>
-#include <stddef.h>
-#include <Task.h>
+#include <DeviceAware.h>
+#include <components/Component.h>
+#include <task_includer.h>
+#include <components/batteries/Battery.h>
 
 class KissLight;
 

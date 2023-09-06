@@ -134,19 +134,20 @@ inline float batteryChargeToLightLimit(float charge) {
 #endif
 
 /*
- * Delay between level's increment/decrement steps
- * e.g. main level change, battery or temperature step-up/step-down etc.
+ * Delay between each light level increment/decrement step.
  */
-#ifndef DELAY_BETWEEN_LEVEL_CHANGE
-#define DELAY_BETWEEN_LEVEL_CHANGE MsToTaskTime(30)
+#ifndef DELAY_BETWEEN_LEVEL_CHANGE_MS
+#define DELAY_BETWEEN_LEVEL_CHANGE_MS MsToTaskTime(30)
 #endif
 
 /* Logging configuration */
-#ifndef KISS_LIGHT_LOG_LEVEL
-#define KISS_LIGHT_LOG_LEVEL LogLevel::DEBUG
+#ifndef KISS_LIGHT_DEFAULT_APPENDER_LEVEL
+#define KISS_LIGHT_DEFAULT_APPENDER_LEVEL LogLevel::DEBUG
 #endif
 
-#define COMPONENTS_DEFAULT_LOG_LEVEL KISS_LIGHT_LOG_LEVEL
+#ifndef COMPONENTS_DEFAULT_LOG_LEVEL
+#define COMPONENTS_DEFAULT_LOG_LEVEL KISS_LIGHT_DEFAULT_APPENDER_LEVEL
+#endif
 
 #ifndef LOG_SUBSTRING_BUFFER_SIZE
 #define LOG_SUBSTRING_BUFFER_SIZE 20
